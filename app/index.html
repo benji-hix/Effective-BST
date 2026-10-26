@@ -103,9 +103,10 @@
     content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
     border-radius: 50%; background: var(--surface); transition: transform .2s;
   }
-  .tr-toggle[aria-pressed="true"] { border-color: var(--tr); color: var(--tr); }
-  .tr-toggle[aria-pressed="true"] .knob { background: var(--tr); }
+  .tr-toggle[aria-pressed="true"] { border-color: var(--cur); color: var(--cur); }
+  .tr-toggle[aria-pressed="true"] .knob { background: var(--cur); }
   .tr-toggle[aria-pressed="true"] .knob::after { transform: translateX(12px); }
+  .tr-toggle:disabled { opacity: 0.45; cursor: not-allowed; }
 
   button:focus-visible, input:focus-visible, summary:focus-visible {
     outline: 2px solid var(--cur); outline-offset: 2px;
@@ -162,6 +163,7 @@
   }
   .off button[aria-pressed="true"] { background: var(--cur); border-color: var(--cur); color: var(--surface); }
   .off-fixed { color: var(--muted); font-size: 12.5px; padding-right: 4px; }
+  .off-idle { opacity: 0.4; }
 
   td.score { width: 180px; }
   .score-cell { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; }
@@ -195,6 +197,14 @@
         <button type="button" id="model-sum" data-model="sum" aria-pressed="true">Simple Sum</button>
         <button type="button" id="model-bsr" data-model="bsr" aria-pressed="false">BSR</button>
       </div>
+      <div class="seg" role="group" aria-label="Focus">
+        <button type="button" id="focus-full" data-focus="full" aria-pressed="true">Full</button>
+        <button type="button" id="focus-bulk" data-focus="bulk" aria-pressed="false">Bulk</button>
+        <button type="button" id="focus-offense" data-focus="offense" aria-pressed="false">Offense</button>
+      </div>
+      <button type="button" class="tr-toggle" id="count-speed" aria-pressed="true">
+        <span class="knob" aria-hidden="true"></span>Speed
+      </button>
       <button type="button" class="tr-toggle" id="trick-room" aria-pressed="false">
         <span class="knob" aria-hidden="true"></span>Trick Room
       </button>
@@ -238,6 +248,8 @@
       <p>Raw BST counts every base stat, including an attacking stat the Pokémon never uses. Effective BST counts only the stats it actually uses.</p>
       <h3>Simple Sum</h3>
       <p><code>HP + Def + SpD + attacking stat + Spe</code>. In Trick Room, Speed is subtracted instead: <code>HP + Def + SpD + attacking stat − Spe</code>, so slower Pokémon score higher.</p>
+      <h3>Focus and Speed</h3>
+      <p><b>Bulk</b> scores only <code>HP + Def + SpD</code>, which suits support Pokémon that don't need to attack. <b>Offense</b> scores only the attacking stat. <b>Speed</b> adds Speed to whichever view you pick, or subtracts it in Trick Room. Bulk with Speed on is a support score. Turn Speed off for pure tankiness or pure power; Trick Room has no effect while Speed is off.</p>
       <h3>BSR</h3>
       <p>Based on Smogon's Base Stat Rating. Bulk is HP × Def and HP × SpD. Offense scales the attacking stat by the share of the pool this Pokémon outspeeds, or in Trick Room the share it moves before. Each part is standardized across the pool, then the total is rescaled so the average matches Simple Sum (450).</p>
       <h3>Offense</h3>
@@ -252,22 +264,29 @@
 <script>
   var STORE_KEY = 'effective-bst-v1';
   var model = EBST.buildModel(POKEMON);
-  var state = { model: 'sum', trickRoom: false, megas: true, mixedOnly: false,
+  var SAVED_KEYS = ['model', 'focus', 'speed', 'trickRoom', 'megas', 'mixedOnly', 'picks'];
+  var state = { model: 'sum', focus: 'full', speed: true, trickRoom: false, megas: true, mixedOnly: false,
                 search: '', sort: 'score', dir: 'desc', picks: {} };
 
   try {
     var saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-    if (saved) ['model', 'trickRoom', 'megas', 'mixedOnly', 'picks'].forEach(function (k) {
+    if (saved) SAVED_KEYS.forEach(function (k) {
       if (k in saved) state[k] = saved[k];
     });
   } catch (e) {}
 
   function save() {
     try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({ model: state.model, trickRoom: state.trickRoom,
-        megas: state.megas, mixedOnly: state.mixedOnly, picks: state.picks }));
+      var out = {};
+      SAVED_KEYS.forEach(function (k) { out[k] = state[k]; });
+      localStorage.setItem(STORE_KEY, JSON.stringify(out));
     } catch (e) {}
   }
+
+  var SCORE_NAME = {
+    sum: { full: 'Effective BST', bulk: 'Effective Bulk', offense: 'Effective Offense' },
+    bsr: { full: 'BSR', bulk: 'BSR Bulk', offense: 'BSR Offense' }
+  };
 
   var LABEL = { physical: 'Phys', special: 'Spec', both: 'Both' };
   var $ = function (id) { return document.getElementById(id); };
@@ -281,7 +300,8 @@
     var rows = model.pool.map(function (p) {
       var mode = offenseFor(p);
       return { p: p, mode: mode, mixed: EBST.isMixed(p), bst: EBST.bst(p),
-               score: model.score(p, state.model, mode, state.trickRoom) };
+               score: model.score(p, { model: state.model, mode: mode, trickRoom: state.trickRoom,
+                                       focus: state.focus, speed: state.speed }) };
     });
     var ranked = rows.slice().sort(function (a, b) { return b.score - a.score; });
     ranked.forEach(function (r, i) {
@@ -299,19 +319,21 @@
   }
 
   function render() {
-    document.documentElement.classList.toggle('tr', state.trickRoom);
+    var trActive = state.trickRoom && state.speed;
+    document.documentElement.classList.toggle('tr', trActive);
     $('model-sum').setAttribute('aria-pressed', state.model === 'sum');
     $('model-bsr').setAttribute('aria-pressed', state.model === 'bsr');
-    $('trick-room').setAttribute('aria-pressed', state.trickRoom);
+    ['full', 'bulk', 'offense'].forEach(function (f) {
+      $('focus-' + f).setAttribute('aria-pressed', state.focus === f);
+    });
+    $('count-speed').setAttribute('aria-pressed', state.speed);
+    $('trick-room').setAttribute('aria-pressed', trActive);
+    $('trick-room').disabled = !state.speed;
+    $('trick-room').title = state.speed ? '' : 'Turn Speed on to use Trick Room';
     $('show-megas').checked = state.megas;
     $('mixed-only').checked = state.mixedOnly;
-    $('score-head').textContent = state.model === 'sum' ? 'Effective BST' : 'BSR';
-
-    var speedWord = state.trickRoom ? '<b>minus Speed</b> (slower is better)' : 'plus Speed';
-    $('mode-note').innerHTML = state.model === 'sum'
-      ? '<b>Simple Sum:</b> HP + Def + SpD + the attacking stat it uses, ' + speedWord + '.'
-      : '<b>BSR:</b> bulk (HP × defenses) plus offense weighted by how many Pokémon it moves before'
-        + (state.trickRoom ? ' <b>under Trick Room</b>' : '') + '. Rescaled to the Simple Sum range.';
+    $('score-head').textContent = SCORE_NAME[state.model][state.focus];
+    $('mode-note').innerHTML = modeNote(trActive);
 
     var pickCount = Object.keys(state.picks).length;
     $('reset-picks').hidden = pickCount === 0;
@@ -340,28 +362,48 @@
       : '<tr><td colspan="11" class="empty">No Pokémon match these filters.</td></tr>';
   }
 
+  function modeNote(trActive) {
+    var speedPart = !state.speed ? '' : trActive ? ', <b>minus Speed</b> (slower is better)' : ', plus Speed';
+    if (state.model === 'sum') {
+      var base = { full: 'HP + Def + SpD + the attacking stat it uses', bulk: 'HP + Def + SpD only',
+                   offense: 'the attacking stat it uses only' }[state.focus];
+      return '<b>Simple Sum:</b> ' + base + speedPart + '.';
+    }
+    var bulk = 'bulk (HP × defenses)';
+    var offense = state.speed
+      ? 'offense weighted by how many Pokémon it moves before' + (trActive ? ' <b>under Trick Room</b>' : '')
+      : 'offense from the attacking stat alone';
+    var body = { full: bulk + ' plus ' + offense,
+                 bulk: bulk + (state.speed ? ' plus how many Pokémon it moves before'
+                   + (trActive ? ' <b>under Trick Room</b>' : '') : ' only'),
+                 offense: offense }[state.focus];
+    return '<b>BSR:</b> ' + body + '. Rescaled to the Simple Sum range.';
+  }
+
   function rowHtml(r) {
     var p = r.p, name = p.name, megaAt = name.indexOf('-Mega');
     var nameHtml = megaAt === -1 ? esc(name)
       : esc(name.slice(0, megaAt) + name.slice(megaAt + 5)) + '<span class="mega">Mega</span>';
-    var atkUsed = r.mode !== 'special', spaUsed = r.mode !== 'physical';
-    var spe = state.trickRoom
-      ? '<td class="stat neg">−' + p.spe + '</td>' : '<td class="stat">' + p.spe + '</td>';
+    var bulkUsed = state.focus !== 'offense', offUsed = state.focus !== 'bulk';
+    var atkUsed = offUsed && r.mode !== 'special', spaUsed = offUsed && r.mode !== 'physical';
+    var cell = function (v, used) { return '<td class="stat' + (used ? '' : ' unused') + '">' + v + '</td>'; };
+    var spe = !state.speed ? cell(p.spe, false)
+      : state.trickRoom ? '<td class="stat neg">−' + p.spe + '</td>' : cell(p.spe, true);
     var offense = r.mixed
-      ? '<span class="off" role="group" aria-label="Offense for ' + esc(name) + '">'
+      ? '<span class="off' + (offUsed ? '' : ' off-idle') + '" role="group" aria-label="Offense for ' + esc(name) + '">'
         + ['physical', 'special', 'both'].map(function (m) {
           return '<button type="button" data-name="' + esc(name) + '" data-mode="' + m + '" aria-pressed="'
             + (r.mode === m) + '">' + LABEL[m] + '</button>';
         }).join('') + '</span>'
-      : '<span class="off-fixed">' + LABEL[r.mode] + '</span>';
+      : '<span class="off-fixed' + (offUsed ? '' : ' off-idle') + '">' + LABEL[r.mode] + '</span>';
     return '<tr>'
       + '<td class="rank">' + r.rank + '</td>'
       + '<td class="l name">' + nameHtml + '</td>'
-      + '<td class="stat stat-sep">' + p.hp + '</td>'
-      + '<td class="stat' + (atkUsed ? '' : ' unused') + '">' + p.atk + '</td>'
-      + '<td class="stat">' + p.def + '</td>'
-      + '<td class="stat' + (spaUsed ? '' : ' unused') + '">' + p.spa + '</td>'
-      + '<td class="stat">' + p.spd + '</td>'
+      + cell(p.hp, bulkUsed).replace('class="stat', 'class="stat stat-sep')
+      + cell(p.atk, atkUsed)
+      + cell(p.def, bulkUsed)
+      + cell(p.spa, spaUsed)
+      + cell(p.spd, bulkUsed)
       + spe
       + '<td class="l stat-sep">' + offense + '</td>'
       + '<td class="bst">' + r.bst + '</td>'
@@ -378,6 +420,10 @@
 
   $('model-sum').addEventListener('click', function () { update({ model: 'sum' }); });
   $('model-bsr').addEventListener('click', function () { update({ model: 'bsr' }); });
+  ['full', 'bulk', 'offense'].forEach(function (f) {
+    $('focus-' + f).addEventListener('click', function () { update({ focus: f }); });
+  });
+  $('count-speed').addEventListener('click', function () { update({ speed: !state.speed }); });
   $('trick-room').addEventListener('click', function () { update({ trickRoom: !state.trickRoom }); });
   $('show-megas').addEventListener('change', function (e) { update({ megas: e.target.checked }); });
   $('mixed-only').addEventListener('change', function (e) { update({ mixedOnly: e.target.checked }); });

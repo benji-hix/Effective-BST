@@ -31,8 +31,13 @@
     return { physical: p.atk, special: p.spa, both: p.atk + p.spa }[mode];
   }
 
-  function ebst(p, mode, trickRoom) {
-    return p.hp + p.def + p.spd + offenseStat(p, mode) + (trickRoom ? -p.spe : p.spe);
+  // focus: 'full' | 'bulk' (HP + Def + SpD) | 'offense' (attacking stat); speed: whether Spe counts.
+  function ebst(p, mode, trickRoom, focus, speed) {
+    var spe = speed === false ? 0 : trickRoom ? -p.spe : p.spe;
+    var bulk = p.hp + p.def + p.spd, offense = offenseStat(p, mode);
+    if (focus === 'bulk') return bulk + spe;
+    if (focus === 'offense') return offense + spe;
+    return bulk + offense + spe;
   }
 
   // --- BSR-style model (Smogon BSR v3/4.0 structure, X-Act / Rising_Dusk) ---
@@ -54,12 +59,13 @@
     return s * (s * sf + 415) / (s * (1 - sf) + 415);
   }
 
-  function bsrComponents(pool, trickRoom) {
+  // speed === false uses a neutral SF of 0.5, which makes sweepiness equal the statistical attack.
+  function bsrComponents(pool, trickRoom, speed) {
     return pool.map(function (p) {
       var shp = p.hp * 2 + 141;
-      var sf = speedFactor(p, pool, trickRoom);
+      var sf = speed === false ? 0.5 : speedFactor(p, pool, trickRoom);
       return { pt: shp * (p.def * 2 + 36), st: shp * (p.spd * 2 + 36),
-               ps: sweepiness(p.atk, sf), ss: sweepiness(p.spa, sf) };
+               ps: sweepiness(p.atk, sf), ss: sweepiness(p.spa, sf), sf: sf };
     });
   }
 
@@ -75,7 +81,7 @@
   // Standardize each component against the normal-mode population (so TR stays comparable).
   function zscores(rows, refRows) {
     var out = rows.map(function () { return {}; });
-    ['pt', 'st', 'ps', 'ss'].forEach(function (k) {
+    ['pt', 'st', 'ps', 'ss', 'sf'].forEach(function (k) {
       var ref = refRows.map(function (r) { return r[k]; });
       var mu = mean(ref), sd = pstdev(ref);
       rows.forEach(function (r, i) { out[i][k] = (r[k] - mu) / sd; });
@@ -83,29 +89,52 @@
     return out;
   }
 
-  function bsrRaw(z, mode) {
-    if (mode === 'both') return z.pt + z.st + BOTH_WEIGHT * (z.ps + z.ss);
-    return z.pt + z.st + 2 * (mode === 'physical' ? z.ps : z.ss);
+  function bsrOffense(z, mode) {
+    if (mode === 'both') return BOTH_WEIGHT * (z.ps + z.ss);
+    return 2 * (mode === 'physical' ? z.ps : z.ss);
+  }
+
+  // Bulk has no Speed inside it, so when Speed counts it adds the standardized speed factor.
+  function bsrRaw(z, mode, focus, speed) {
+    var bulk = z.pt + z.st;
+    if (focus === 'bulk') return bulk + (speed === false ? 0 : z.sf);
+    if (focus === 'offense') return bsrOffense(z, mode);
+    return bulk + bsrOffense(z, mode);
   }
 
   // Precomputes everything that depends on the whole pool; returns a scorer.
   function buildModel(list) {
     var pool = dedupe(list);
     var normal = bsrComponents(pool, false);
+    var flat = bsrComponents(pool, false, false);
     var zNorm = zscores(normal, normal);
     var zTr = zscores(bsrComponents(pool, true), normal);
+    var zFlat = zscores(flat, flat);
+    zFlat.forEach(function (z) { z.sf = 0; });
 
-    // Put BSR on the same scale as normal-mode EBST so the toggle compares like with like.
-    var baseRaw = pool.map(function (p, i) { return bsrRaw(zNorm[i], defaultOffense(p)); });
-    var baseEbst = pool.map(function (p) { return ebst(p, defaultOffense(p), false); });
-    var muR = mean(baseRaw), sdR = pstdev(baseRaw), muE = mean(baseEbst), sdE = pstdev(baseEbst);
+    // Put BSR on the same scale as normal-mode EBST with the same focus and Speed setting,
+    // so the model toggle compares like with like.
+    var scales = {};
+    function scaleFor(focus, speed) {
+      var key = focus + '|' + speed;
+      if (!scales[key]) {
+        var z = speed ? zNorm : zFlat;
+        var raw = pool.map(function (p, i) { return bsrRaw(z[i], defaultOffense(p), focus, speed); });
+        var sum = pool.map(function (p) { return ebst(p, defaultOffense(p), false, focus, speed); });
+        scales[key] = { muR: mean(raw), sdR: pstdev(raw), muE: mean(sum), sdE: pstdev(sum) };
+      }
+      return scales[key];
+    }
 
     var index = new Map(pool.map(function (p, i) { return [p, i]; }));
 
-    function score(p, model, mode, trickRoom) {
-      if (model === 'sum') return ebst(p, mode, trickRoom);
-      var z = (trickRoom ? zTr : zNorm)[index.get(p)];
-      return Math.round(muE + (bsrRaw(z, mode) - muR) / sdR * sdE);
+    // opts: { model: 'sum'|'bsr', mode, trickRoom, focus: 'full'|'bulk'|'offense', speed: bool }
+    function score(p, opts) {
+      var focus = opts.focus || 'full', speed = opts.speed !== false;
+      if (opts.model === 'sum') return ebst(p, opts.mode, opts.trickRoom, focus, speed);
+      var z = (!speed ? zFlat : opts.trickRoom ? zTr : zNorm)[index.get(p)];
+      var s = scaleFor(focus, speed);
+      return Math.round(s.muE + (bsrRaw(z, opts.mode, focus, speed) - s.muR) / s.sdR * s.sdE);
     }
 
     return { pool: pool, score: score };

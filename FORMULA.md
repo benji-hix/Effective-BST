@@ -36,6 +36,25 @@ Adapted from Smogon CAP's Base Stat Rating (X-Act, Rising_Dusk; BSR 4.0 counts o
    - both: `raw = PT + ST + 1.5·(PS + SS)`
 6. Rescale so normal-mode BSR has the same mean and SD as normal-mode EBST (both mean 450). This puts both models on one number line.
 
+## F | Focus and Speed views (added 2026-10-26)
+
+Two more toggles: **Focus** (`full` / `bulk` / `offense`) and **Speed** (on / off). Trick Room only applies while Speed is on. Full + Speed on is the original score above.
+
+Simple Sum:
+```
+bulk    = HP + Def + SpD                (+/− Spe if Speed is on)
+offense = attacking stat                (+/− Spe if Speed is on)
+```
+
+BSR:
+- **bulk** = `PT + ST`. With Speed on, it also adds the standardized speed factor `z(SF)` (`1 − SF` in Trick Room, still standardized against normal mode).
+- **offense** = `2·S` (or `1.5·(PS + SS)` for both). With Speed off, SF is fixed at 0.5, which makes sweepiness equal the statistical attack.
+- Each Focus + Speed combination is rescaled to match the same view in Simple Sum, normal mode (same mean and SD).
+
+Bulk with Speed on is the support view, with offense dropped entirely. Top non-Megas in Simple Sum: Umbreon and Aegislash (400) normally, and Bastiodon (336) and Steelix (310) in Trick Room. Top Trick Room offense: Rampardos, Hatterene, Rhyperior.
+
+These views exist only in [app/ebst.js](app/ebst.js). The Python prototype covers Full + Speed on.
+
 ## D | Prototype results (default offense)
 
 | Rank | EBST | EBST (TR) | BSR | BSR (TR) |
