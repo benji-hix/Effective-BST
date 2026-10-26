@@ -259,9 +259,16 @@
   </details>
 </main>
 
-<script src="pokemon-data.js"></script>
-<script src="ebst.js"></script>
+<!-- The ?v= forces browsers to fetch fresh copies; keep it equal to EBST.VERSION. -->
+<script src="pokemon-data.js?v=2"></script>
+<script src="ebst.js?v=2"></script>
 <script>
+  var EBST_VERSION = 2;
+  if (EBST.VERSION !== EBST_VERSION) {
+    document.querySelector('main').innerHTML = '<p class="mode-note"><b>An outdated copy of the scoring code'
+      + ' loaded, so scores would be wrong.</b> Reload the page while holding Shift to fetch the current version.</p>';
+    throw new Error('ebst.js version ' + EBST.VERSION + ' loaded; page expects ' + EBST_VERSION);
+  }
   var STORE_KEY = 'effective-bst-v1';
   var model = EBST.buildModel(POKEMON);
   var SAVED_KEYS = ['model', 'focus', 'speed', 'trickRoom', 'megas', 'mixedOnly', 'picks'];

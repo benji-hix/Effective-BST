@@ -140,7 +140,8 @@
     return { pool: pool, score: score };
   }
 
-  var api = { MIXED_RATIO: MIXED_RATIO, STATS: STATS, bst: bst, defaultOffense: defaultOffense,
+  // Bump together with the ?v= on the script tags in index.html whenever this file changes.
+  var api = { VERSION: 2, MIXED_RATIO: MIXED_RATIO, STATS: STATS, bst: bst, defaultOffense: defaultOffense,
               isMixed: isMixed, offenseStat: offenseStat, buildModel: buildModel };
   if (typeof module !== 'undefined') module.exports = api;
   else root.EBST = api;
