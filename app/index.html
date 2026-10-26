@@ -1,0 +1,407 @@
+<meta charset="utf-8">
+<title>Effective BST</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Layout: one sticky control band over a single ranked table; Trick Room repaints the accent and the band's grid. */
+  :root {
+    --bg: #f2f3f7;
+    --surface: #ffffff;
+    --ink: #14161d;
+    --muted: #5e6475;
+    --line: #dde0e9;
+    --accent: #2645c4;
+    --tr: #b0237b;
+    --neg: #b8402c;
+    --unused: #a4a9b8;
+    --bar: #e6e9f2;
+    --cur: var(--accent);
+    --font-display: "Saira Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+    --font-body: "Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1015; --surface: #161922; --ink: #e8eaf1; --muted: #9ba2b4; --line: #282d3a;
+      --accent: #8199ff; --tr: #ff6cc4; --neg: #ff8b74; --unused: #596072; --bar: #222735;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1015; --surface: #161922; --ink: #e8eaf1; --muted: #9ba2b4; --line: #282d3a;
+    --accent: #8199ff; --tr: #ff6cc4; --neg: #ff8b74; --unused: #596072; --bar: #222735;
+    color-scheme: dark;
+  }
+  :root.tr { --cur: var(--tr); }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+    z-index: 10; background: var(--surface);
+  }
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  /* Control band */
+  .top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+  :root.tr .top {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--tr) 9%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--tr) 9%, transparent) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .top .wrap {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 12px 24px; padding-block: 14px;
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1;
+    margin: 0; letter-spacing: 0.01em; text-wrap: balance;
+  }
+  h1 span { color: var(--cur); transition: color .2s; }
+  .sub { margin: 4px 0 0; color: var(--muted); font-size: 12.5px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+  .seg {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    background: var(--bg);
+  }
+  .seg button {
+    font: 600 13px var(--font-body); color: var(--muted); background: none; border: 0;
+    padding: 8px 14px; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--cur); color: var(--surface); }
+
+  .tr-toggle {
+    font: 600 13px var(--font-body); display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  }
+  .tr-toggle .knob {
+    width: 28px; height: 16px; border-radius: 8px; background: var(--line); position: relative;
+    transition: background .2s;
+  }
+  .tr-toggle .knob::after {
+    content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--surface); transition: transform .2s;
+  }
+  .tr-toggle[aria-pressed="true"] { border-color: var(--tr); color: var(--tr); }
+  .tr-toggle[aria-pressed="true"] .knob { background: var(--tr); }
+  .tr-toggle[aria-pressed="true"] .knob::after { transform: translateX(12px); }
+
+  button:focus-visible, input:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--cur); outline-offset: 2px;
+  }
+
+  /* Filters */
+  main { padding-block: 18px 48px; display: grid; gap: 14px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .filters input[type="search"] {
+    font: 14px var(--font-body); color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; width: 220px; max-width: 100%;
+  }
+  .filters label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); cursor: pointer; }
+  .filters input[type="checkbox"] { accent-color: var(--cur); }
+  .link-btn {
+    font: 500 13px var(--font-body); color: var(--cur); background: none; border: 0; padding: 0;
+    cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+  }
+  .mode-note { margin: 0; color: var(--muted); max-width: 70ch; }
+  .mode-note b { color: var(--ink); font-weight: 600; }
+
+  /* Table */
+  .table-wrap {
+    overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+  tbody tr:last-child td { border-bottom: 0; }
+  th {
+    font: 700 12px var(--font-display); letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); background: var(--surface); position: sticky; top: 0;
+  }
+  th button { all: unset; cursor: pointer; }
+  th button:focus-visible { outline: 2px solid var(--cur); outline-offset: 2px; }
+  th[aria-sort="descending"] button::after { content: " ↓"; color: var(--cur); }
+  th[aria-sort="ascending"] button::after { content: " ↑"; color: var(--cur); }
+  .l { text-align: left; }
+  .rank { color: var(--muted); width: 2.5em; }
+  .name { font-weight: 600; position: sticky; left: 0; background: var(--surface); }
+  .name .mega {
+    font: 700 10px var(--font-display); letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; margin-left: 6px;
+  }
+  td.stat { color: var(--ink); width: 3.2em; }
+  td.stat.unused { color: var(--unused); text-decoration: line-through; }
+  td.stat.neg { color: var(--neg); font-weight: 600; }
+  td.bst { color: var(--muted); }
+  .stat-sep { border-left: 1px solid var(--line); }
+
+  .off { display: inline-flex; gap: 2px; }
+  .off button {
+    font: 600 11.5px var(--font-body); color: var(--muted); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 5px; padding: 2px 7px; cursor: pointer;
+  }
+  .off button[aria-pressed="true"] { background: var(--cur); border-color: var(--cur); color: var(--surface); }
+  .off-fixed { color: var(--muted); font-size: 12.5px; padding-right: 4px; }
+
+  td.score { width: 180px; }
+  .score-cell { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; }
+  .score-bar { height: 6px; border-radius: 3px; background: var(--bar); overflow: hidden; }
+  .score-bar i { display: block; height: 100%; background: var(--cur); border-radius: 3px; }
+  .score-num { font: 700 19px var(--font-display); min-width: 2.4em; }
+  .empty { text-align: center; color: var(--muted); padding: 32px 10px; }
+
+  /* Explainer */
+  details.how { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+  details.how summary { cursor: pointer; font-weight: 600; }
+  .how-body { display: grid; gap: 10px; padding-top: 10px; max-width: 72ch; color: var(--muted); }
+  .how-body p { margin: 0; }
+  .how-body code {
+    font: 13px ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--ink);
+    background: var(--bg); border-radius: 4px; padding: 1px 5px;
+  }
+  .how-body h3 { font: 700 15px var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin: 6px 0 0; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>Effective <span>BST</span></h1>
+      <p class="sub">VGC 2026 Reg M-C · Pokémon Champions · <span id="pool-count"></span> Pokémon</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Model">
+        <button type="button" id="model-sum" data-model="sum" aria-pressed="true">Simple Sum</button>
+        <button type="button" id="model-bsr" data-model="bsr" aria-pressed="false">BSR</button>
+      </div>
+      <button type="button" class="tr-toggle" id="trick-room" aria-pressed="false">
+        <span class="knob" aria-hidden="true"></span>Trick Room
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="filters">
+    <input type="search" id="search" placeholder="Search Pokémon" aria-label="Search Pokémon" autocomplete="off">
+    <label><input type="checkbox" id="show-megas" checked> Megas</label>
+    <label><input type="checkbox" id="mixed-only"> Mixed attackers only</label>
+    <button type="button" class="link-btn" id="reset-picks" hidden></button>
+  </div>
+  <p class="mode-note" id="mode-note"></p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="rank" data-sort="score">#</th>
+          <th class="l name" data-sort="name"><button type="button">Pokémon</button></th>
+          <th class="stat-sep" data-sort="hp"><button type="button">HP</button></th>
+          <th data-sort="atk"><button type="button">Atk</button></th>
+          <th data-sort="def"><button type="button">Def</button></th>
+          <th data-sort="spa"><button type="button">SpA</button></th>
+          <th data-sort="spd"><button type="button">SpD</button></th>
+          <th data-sort="spe"><button type="button">Spe</button></th>
+          <th class="l stat-sep">Offense</th>
+          <th data-sort="bst"><button type="button">BST</button></th>
+          <th class="l score" data-sort="score"><button type="button" id="score-head">Effective BST</button></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <details class="how" id="how">
+    <summary>How the scores work</summary>
+    <div class="how-body">
+      <p>Raw BST counts every base stat, including an attacking stat the Pokémon never uses. Effective BST counts only the stats it actually uses.</p>
+      <h3>Simple Sum</h3>
+      <p><code>HP + Def + SpD + attacking stat + Spe</code>. In Trick Room, Speed is subtracted instead: <code>HP + Def + SpD + attacking stat − Spe</code>, so slower Pokémon score higher.</p>
+      <h3>BSR</h3>
+      <p>Based on Smogon's Base Stat Rating. Bulk is HP × Def and HP × SpD. Offense scales the attacking stat by the share of the pool this Pokémon outspeeds, or in Trick Room the share it moves before. Each part is standardized across the pool, then the total is rescaled so the average matches Simple Sum (450).</p>
+      <h3>Offense</h3>
+      <p>Each Pokémon uses its higher attacking stat. When the lower one is at least 75% of the higher, you can switch it to Phys, Spec or Both. Crossed-out stats aren't counted. Your picks are saved in this browser.</p>
+      <p>Base stats come from Pokémon Showdown's data for VGC 2026 Reg M-C. Mythical and Restricted Legendary Pokémon are excluded, and Megas are listed separately.</p>
+    </div>
+  </details>
+</main>
+
+<script src="pokemon-data.js"></script>
+<script src="ebst.js"></script>
+<script>
+  var STORE_KEY = 'effective-bst-v1';
+  var model = EBST.buildModel(POKEMON);
+  var state = { model: 'sum', trickRoom: false, megas: true, mixedOnly: false,
+                search: '', sort: 'score', dir: 'desc', picks: {} };
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    if (saved) ['model', 'trickRoom', 'megas', 'mixedOnly', 'picks'].forEach(function (k) {
+      if (k in saved) state[k] = saved[k];
+    });
+  } catch (e) {}
+
+  function save() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({ model: state.model, trickRoom: state.trickRoom,
+        megas: state.megas, mixedOnly: state.mixedOnly, picks: state.picks }));
+    } catch (e) {}
+  }
+
+  var LABEL = { physical: 'Phys', special: 'Spec', both: 'Both' };
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return s.replace(/[&<>"]/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); };
+
+  function offenseFor(p) {
+    return (EBST.isMixed(p) && state.picks[p.name]) || EBST.defaultOffense(p);
+  }
+
+  function computeRows() {
+    var rows = model.pool.map(function (p) {
+      var mode = offenseFor(p);
+      return { p: p, mode: mode, mixed: EBST.isMixed(p), bst: EBST.bst(p),
+               score: model.score(p, state.model, mode, state.trickRoom) };
+    });
+    var ranked = rows.slice().sort(function (a, b) { return b.score - a.score; });
+    ranked.forEach(function (r, i) {
+      r.rank = i > 0 && r.score === ranked[i - 1].score ? ranked[i - 1].rank : i + 1;
+    });
+    var min = ranked[ranked.length - 1].score, max = ranked[0].score;
+    rows.forEach(function (r) { r.fill = (r.score - min) / (max - min); });
+    return rows;
+  }
+
+  function sortValue(r, key) {
+    if (key === 'score' || key === 'bst') return r[key];
+    if (key === 'name') return r.p.name;
+    return r.p[key];
+  }
+
+  function render() {
+    document.documentElement.classList.toggle('tr', state.trickRoom);
+    $('model-sum').setAttribute('aria-pressed', state.model === 'sum');
+    $('model-bsr').setAttribute('aria-pressed', state.model === 'bsr');
+    $('trick-room').setAttribute('aria-pressed', state.trickRoom);
+    $('show-megas').checked = state.megas;
+    $('mixed-only').checked = state.mixedOnly;
+    $('score-head').textContent = state.model === 'sum' ? 'Effective BST' : 'BSR';
+
+    var speedWord = state.trickRoom ? '<b>minus Speed</b> (slower is better)' : 'plus Speed';
+    $('mode-note').innerHTML = state.model === 'sum'
+      ? '<b>Simple Sum:</b> HP + Def + SpD + the attacking stat it uses, ' + speedWord + '.'
+      : '<b>BSR:</b> bulk (HP × defenses) plus offense weighted by how many Pokémon it moves before'
+        + (state.trickRoom ? ' <b>under Trick Room</b>' : '') + '. Rescaled to the Simple Sum range.';
+
+    var pickCount = Object.keys(state.picks).length;
+    $('reset-picks').hidden = pickCount === 0;
+    $('reset-picks').textContent = 'Reset offense picks (' + pickCount + ')';
+
+    var q = state.search.trim().toLowerCase();
+    var rows = computeRows().filter(function (r) {
+      if (!state.megas && r.p.name.indexOf('-Mega') !== -1) return false;
+      if (state.mixedOnly && !r.mixed) return false;
+      return !q || r.p.name.toLowerCase().indexOf(q) !== -1;
+    });
+    var sign = state.dir === 'asc' ? 1 : -1;
+    rows.sort(function (a, b) {
+      var x = sortValue(a, state.sort), y = sortValue(b, state.sort);
+      if (x < y) return -sign;
+      if (x > y) return sign;
+      return a.rank - b.rank;
+    });
+
+    document.querySelectorAll('th[data-sort]').forEach(function (th) {
+      var active = th.dataset.sort === state.sort && th.querySelector('button');
+      th.setAttribute('aria-sort', active ? (state.dir === 'asc' ? 'ascending' : 'descending') : 'none');
+    });
+
+    $('rows').innerHTML = rows.length ? rows.map(rowHtml).join('')
+      : '<tr><td colspan="11" class="empty">No Pokémon match these filters.</td></tr>';
+  }
+
+  function rowHtml(r) {
+    var p = r.p, name = p.name, megaAt = name.indexOf('-Mega');
+    var nameHtml = megaAt === -1 ? esc(name)
+      : esc(name.slice(0, megaAt) + name.slice(megaAt + 5)) + '<span class="mega">Mega</span>';
+    var atkUsed = r.mode !== 'special', spaUsed = r.mode !== 'physical';
+    var spe = state.trickRoom
+      ? '<td class="stat neg">−' + p.spe + '</td>' : '<td class="stat">' + p.spe + '</td>';
+    var offense = r.mixed
+      ? '<span class="off" role="group" aria-label="Offense for ' + esc(name) + '">'
+        + ['physical', 'special', 'both'].map(function (m) {
+          return '<button type="button" data-name="' + esc(name) + '" data-mode="' + m + '" aria-pressed="'
+            + (r.mode === m) + '">' + LABEL[m] + '</button>';
+        }).join('') + '</span>'
+      : '<span class="off-fixed">' + LABEL[r.mode] + '</span>';
+    return '<tr>'
+      + '<td class="rank">' + r.rank + '</td>'
+      + '<td class="l name">' + nameHtml + '</td>'
+      + '<td class="stat stat-sep">' + p.hp + '</td>'
+      + '<td class="stat' + (atkUsed ? '' : ' unused') + '">' + p.atk + '</td>'
+      + '<td class="stat">' + p.def + '</td>'
+      + '<td class="stat' + (spaUsed ? '' : ' unused') + '">' + p.spa + '</td>'
+      + '<td class="stat">' + p.spd + '</td>'
+      + spe
+      + '<td class="l stat-sep">' + offense + '</td>'
+      + '<td class="bst">' + r.bst + '</td>'
+      + '<td class="l score"><div class="score-cell"><div class="score-bar"><i style="width:'
+      + (r.fill * 100).toFixed(1) + '%"></i></div><span class="score-num">' + r.score + '</span></div></td>'
+      + '</tr>';
+  }
+
+  function update(changes) {
+    Object.assign(state, changes);
+    save();
+    render();
+  }
+
+  $('model-sum').addEventListener('click', function () { update({ model: 'sum' }); });
+  $('model-bsr').addEventListener('click', function () { update({ model: 'bsr' }); });
+  $('trick-room').addEventListener('click', function () { update({ trickRoom: !state.trickRoom }); });
+  $('show-megas').addEventListener('change', function (e) { update({ megas: e.target.checked }); });
+  $('mixed-only').addEventListener('change', function (e) { update({ mixedOnly: e.target.checked }); });
+  $('search').addEventListener('input', function (e) { update({ search: e.target.value }); });
+  $('reset-picks').addEventListener('click', function () { update({ picks: {} }); });
+
+  document.querySelector('thead').addEventListener('click', function (e) {
+    var th = e.target.closest('th[data-sort]');
+    if (!th || !e.target.closest('button')) return;
+    var key = th.dataset.sort;
+    if (key === state.sort) update({ dir: state.dir === 'asc' ? 'desc' : 'asc' });
+    else update({ sort: key, dir: key === 'name' ? 'asc' : 'desc' });
+  });
+
+  $('rows').addEventListener('click', function (e) {
+    var btn = e.target.closest('.off button');
+    if (!btn) return;
+    var picks = Object.assign({}, state.picks);
+    var p = model.pool.find(function (x) { return x.name === btn.dataset.name; });
+    if (btn.dataset.mode === EBST.defaultOffense(p)) delete picks[p.name];
+    else picks[p.name] = btn.dataset.mode;
+    update({ picks: picks });
+  });
+
+  $('pool-count').textContent = model.pool.length;
+  render();
+</script>
