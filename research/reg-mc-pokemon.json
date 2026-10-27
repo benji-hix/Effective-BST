@@ -4,6 +4,10 @@
   "name": "Venusaur",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
   "hp": 80,
   "atk": 82,
   "def": 83,
@@ -16,6 +20,10 @@
   "name": "Venusaur-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
   "hp": 80,
   "atk": 100,
   "def": 123,
@@ -28,6 +36,10 @@
   "name": "Charizard",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
   "hp": 78,
   "atk": 84,
   "def": 78,
@@ -40,6 +52,10 @@
   "name": "Charizard-Mega-X",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Dragon"
+  ],
   "hp": 78,
   "atk": 130,
   "def": 111,
@@ -52,6 +68,10 @@
   "name": "Charizard-Mega-Y",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
   "hp": 78,
   "atk": 104,
   "def": 78,
@@ -64,6 +84,9 @@
   "name": "Blastoise",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 79,
   "atk": 83,
   "def": 100,
@@ -76,6 +99,9 @@
   "name": "Blastoise-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 79,
   "atk": 103,
   "def": 120,
@@ -88,6 +114,10 @@
   "name": "Beedrill",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
   "hp": 65,
   "atk": 90,
   "def": 40,
@@ -100,6 +130,10 @@
   "name": "Beedrill-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
   "hp": 65,
   "atk": 150,
   "def": 40,
@@ -112,6 +146,10 @@
   "name": "Pidgeot",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 83,
   "atk": 80,
   "def": 75,
@@ -124,6 +162,10 @@
   "name": "Pidgeot-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 83,
   "atk": 80,
   "def": 80,
@@ -136,6 +178,9 @@
   "name": "Arbok",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Poison"
+  ],
   "hp": 60,
   "atk": 95,
   "def": 69,
@@ -148,6 +193,9 @@
   "name": "Pikachu",
   "tier": "NFE",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 35,
   "atk": 55,
   "def": 40,
@@ -160,6 +208,9 @@
   "name": "Raichu",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 60,
   "atk": 90,
   "def": 55,
@@ -172,6 +223,10 @@
   "name": "Raichu-Alola",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Psychic"
+  ],
   "hp": 60,
   "atk": 85,
   "def": 50,
@@ -184,6 +239,9 @@
   "name": "Raichu-Mega-X",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 60,
   "atk": 135,
   "def": 95,
@@ -196,6 +254,9 @@
   "name": "Raichu-Mega-Y",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 60,
   "atk": 100,
   "def": 55,
@@ -208,6 +269,9 @@
   "name": "Clefable",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Fairy"
+  ],
   "hp": 95,
   "atk": 70,
   "def": 73,
@@ -220,6 +284,10 @@
   "name": "Clefable-Mega",
   "tier": "(OU)",
   "battleOnly": null,
+  "types": [
+   "Fairy",
+   "Flying"
+  ],
   "hp": 95,
   "atk": 80,
   "def": 93,
@@ -232,6 +300,9 @@
   "name": "Ninetales",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire"
+  ],
   "hp": 73,
   "atk": 76,
   "def": 75,
@@ -244,6 +315,10 @@
   "name": "Ninetales-Alola",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice",
+   "Fairy"
+  ],
   "hp": 73,
   "atk": 67,
   "def": 75,
@@ -256,6 +331,10 @@
   "name": "Wigglytuff",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Fairy"
+  ],
   "hp": 140,
   "atk": 70,
   "def": 45,
@@ -268,6 +347,10 @@
   "name": "Vileplume",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
   "hp": 75,
   "atk": 80,
   "def": 85,
@@ -280,6 +363,9 @@
   "name": "Persian",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 65,
   "atk": 70,
   "def": 60,
@@ -292,6 +378,9 @@
   "name": "Persian-Alola",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 65,
   "atk": 60,
   "def": 60,
@@ -304,6 +393,9 @@
   "name": "Perrserker",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Steel"
+  ],
   "hp": 70,
   "atk": 110,
   "def": 100,
@@ -316,6 +408,9 @@
   "name": "Arcanine",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire"
+  ],
   "hp": 90,
   "atk": 110,
   "def": 80,
@@ -328,6 +423,10 @@
   "name": "Arcanine-Hisui",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Rock"
+  ],
   "hp": 95,
   "atk": 115,
   "def": 80,
@@ -340,6 +439,9 @@
   "name": "Politoed",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 90,
   "atk": 75,
   "def": 75,
@@ -352,6 +454,9 @@
   "name": "Alakazam",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 55,
   "atk": 50,
   "def": 45,
@@ -364,6 +469,9 @@
   "name": "Alakazam-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 55,
   "atk": 50,
   "def": 65,
@@ -376,6 +484,9 @@
   "name": "Machamp",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 90,
   "atk": 130,
   "def": 80,
@@ -388,6 +499,10 @@
   "name": "Victreebel",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
   "hp": 80,
   "atk": 105,
   "def": 65,
@@ -400,6 +515,10 @@
   "name": "Victreebel-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
   "hp": 80,
   "atk": 125,
   "def": 85,
@@ -412,6 +531,10 @@
   "name": "Slowbro",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
   "hp": 95,
   "atk": 75,
   "def": 110,
@@ -424,6 +547,10 @@
   "name": "Slowbro-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
   "hp": 95,
   "atk": 75,
   "def": 180,
@@ -436,6 +563,10 @@
   "name": "Slowbro-Galar",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Poison",
+   "Psychic"
+  ],
   "hp": 95,
   "atk": 100,
   "def": 95,
@@ -448,6 +579,10 @@
   "name": "Slowking",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
   "hp": 95,
   "atk": 75,
   "def": 80,
@@ -460,6 +595,10 @@
   "name": "Slowking-Galar",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Poison",
+   "Psychic"
+  ],
   "hp": 95,
   "atk": 65,
   "def": 80,
@@ -472,6 +611,10 @@
   "name": "Farfetch\\u2019d",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 52,
   "atk": 90,
   "def": 55,
@@ -484,6 +627,9 @@
   "name": "Sirfetch\\u2019d",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 62,
   "atk": 135,
   "def": 95,
@@ -496,6 +642,10 @@
   "name": "Gengar",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Poison"
+  ],
   "hp": 60,
   "atk": 65,
   "def": 60,
@@ -508,6 +658,10 @@
   "name": "Gengar-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Poison"
+  ],
   "hp": 60,
   "atk": 65,
   "def": 80,
@@ -520,6 +674,10 @@
   "name": "Steelix",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Ground"
+  ],
   "hp": 75,
   "atk": 85,
   "def": 200,
@@ -532,6 +690,10 @@
   "name": "Steelix-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Ground"
+  ],
   "hp": 75,
   "atk": 125,
   "def": 230,
@@ -544,6 +706,10 @@
   "name": "Rhyperior",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Rock"
+  ],
   "hp": 115,
   "atk": 140,
   "def": 130,
@@ -556,6 +722,9 @@
   "name": "Kangaskhan",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 105,
   "atk": 95,
   "def": 80,
@@ -568,6 +737,9 @@
   "name": "Kangaskhan-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 105,
   "atk": 125,
   "def": 100,
@@ -580,6 +752,10 @@
   "name": "Starmie",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
   "hp": 60,
   "atk": 75,
   "def": 85,
@@ -592,6 +768,10 @@
   "name": "Starmie-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
   "hp": 60,
   "atk": 100,
   "def": 105,
@@ -604,6 +784,10 @@
   "name": "Mr. Mime",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
   "hp": 40,
   "atk": 45,
   "def": 65,
@@ -616,6 +800,10 @@
   "name": "Mr. Rime",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice",
+   "Psychic"
+  ],
   "hp": 80,
   "atk": 85,
   "def": 75,
@@ -628,6 +816,10 @@
   "name": "Scizor",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
   "hp": 70,
   "atk": 130,
   "def": 100,
@@ -640,6 +832,10 @@
   "name": "Scizor-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
   "hp": 70,
   "atk": 150,
   "def": 140,
@@ -652,6 +848,10 @@
   "name": "Kleavor",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Rock"
+  ],
   "hp": 70,
   "atk": 135,
   "def": 95,
@@ -664,6 +864,9 @@
   "name": "Pinsir",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug"
+  ],
   "hp": 65,
   "atk": 125,
   "def": 100,
@@ -676,6 +879,10 @@
   "name": "Pinsir-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
   "hp": 65,
   "atk": 155,
   "def": 120,
@@ -688,6 +895,9 @@
   "name": "Tauros",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 75,
   "atk": 100,
   "def": 95,
@@ -700,6 +910,9 @@
   "name": "Tauros-Paldea-Combat",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 75,
   "atk": 110,
   "def": 105,
@@ -712,6 +925,10 @@
   "name": "Tauros-Paldea-Blaze",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Fire"
+  ],
   "hp": 75,
   "atk": 110,
   "def": 105,
@@ -724,6 +941,10 @@
   "name": "Tauros-Paldea-Aqua",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Water"
+  ],
   "hp": 75,
   "atk": 110,
   "def": 105,
@@ -736,6 +957,10 @@
   "name": "Gyarados",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
   "hp": 95,
   "atk": 125,
   "def": 79,
@@ -748,6 +973,10 @@
   "name": "Gyarados-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
   "hp": 95,
   "atk": 155,
   "def": 109,
@@ -760,6 +989,9 @@
   "name": "Ditto",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 48,
   "atk": 48,
   "def": 48,
@@ -772,6 +1004,9 @@
   "name": "Vaporeon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 130,
   "atk": 65,
   "def": 60,
@@ -784,6 +1019,9 @@
   "name": "Jolteon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 65,
   "atk": 65,
   "def": 60,
@@ -796,6 +1034,9 @@
   "name": "Flareon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire"
+  ],
   "hp": 65,
   "atk": 130,
   "def": 60,
@@ -808,6 +1049,9 @@
   "name": "Espeon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 65,
   "atk": 65,
   "def": 60,
@@ -820,6 +1064,9 @@
   "name": "Umbreon",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 95,
   "atk": 65,
   "def": 110,
@@ -832,6 +1079,9 @@
   "name": "Leafeon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 65,
   "atk": 110,
   "def": 130,
@@ -844,6 +1094,9 @@
   "name": "Glaceon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice"
+  ],
   "hp": 65,
   "atk": 60,
   "def": 110,
@@ -856,6 +1109,9 @@
   "name": "Sylveon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fairy"
+  ],
   "hp": 95,
   "atk": 65,
   "def": 65,
@@ -868,6 +1124,10 @@
   "name": "Aerodactyl",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Flying"
+  ],
   "hp": 80,
   "atk": 105,
   "def": 65,
@@ -880,6 +1140,10 @@
   "name": "Aerodactyl-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Flying"
+  ],
   "hp": 80,
   "atk": 135,
   "def": 85,
@@ -892,6 +1156,9 @@
   "name": "Snorlax",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 160,
   "atk": 110,
   "def": 65,
@@ -904,6 +1171,10 @@
   "name": "Dragonite",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
   "hp": 91,
   "atk": 134,
   "def": 95,
@@ -916,6 +1187,10 @@
   "name": "Dragonite-Mega",
   "tier": "(OU)",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
   "hp": 91,
   "atk": 124,
   "def": 115,
@@ -928,6 +1203,9 @@
   "name": "Meganium",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 80,
   "atk": 82,
   "def": 100,
@@ -940,6 +1218,10 @@
   "name": "Meganium-Mega",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Fairy"
+  ],
   "hp": 80,
   "atk": 92,
   "def": 115,
@@ -952,6 +1234,9 @@
   "name": "Typhlosion",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire"
+  ],
   "hp": 78,
   "atk": 84,
   "def": 78,
@@ -964,6 +1249,10 @@
   "name": "Typhlosion-Hisui",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Ghost"
+  ],
   "hp": 73,
   "atk": 84,
   "def": 78,
@@ -976,6 +1265,9 @@
   "name": "Feraligatr",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 85,
   "atk": 105,
   "def": 100,
@@ -988,6 +1280,10 @@
   "name": "Feraligatr-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Dragon"
+  ],
   "hp": 85,
   "atk": 160,
   "def": 125,
@@ -1000,6 +1296,10 @@
   "name": "Ariados",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
   "hp": 70,
   "atk": 90,
   "def": 70,
@@ -1012,6 +1312,9 @@
   "name": "Ampharos",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 90,
   "atk": 75,
   "def": 85,
@@ -1024,6 +1327,10 @@
   "name": "Ampharos-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Dragon"
+  ],
   "hp": 90,
   "atk": 95,
   "def": 105,
@@ -1036,6 +1343,10 @@
   "name": "Azumarill",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Fairy"
+  ],
   "hp": 100,
   "atk": 50,
   "def": 80,
@@ -1048,6 +1359,10 @@
   "name": "Farigiraf",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Psychic"
+  ],
   "hp": 120,
   "atk": 90,
   "def": 70,
@@ -1060,6 +1375,10 @@
   "name": "Forretress",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
   "hp": 75,
   "atk": 90,
   "def": 140,
@@ -1072,6 +1391,10 @@
   "name": "Gliscor",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Flying"
+  ],
   "hp": 75,
   "atk": 95,
   "def": 125,
@@ -1084,6 +1407,10 @@
   "name": "Qwilfish",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Poison"
+  ],
   "hp": 65,
   "atk": 95,
   "def": 85,
@@ -1096,6 +1423,10 @@
   "name": "Overqwil",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Poison"
+  ],
   "hp": 85,
   "atk": 115,
   "def": 95,
@@ -1108,6 +1439,10 @@
   "name": "Heracross",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Fighting"
+  ],
   "hp": 80,
   "atk": 125,
   "def": 75,
@@ -1120,6 +1455,10 @@
   "name": "Heracross-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Fighting"
+  ],
   "hp": 80,
   "atk": 185,
   "def": 115,
@@ -1132,6 +1471,10 @@
   "name": "Weavile",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Ice"
+  ],
   "hp": 70,
   "atk": 120,
   "def": 65,
@@ -1144,6 +1487,10 @@
   "name": "Sneasler",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Poison"
+  ],
   "hp": 80,
   "atk": 130,
   "def": 60,
@@ -1156,6 +1503,10 @@
   "name": "Mamoswine",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice",
+   "Ground"
+  ],
   "hp": 110,
   "atk": 130,
   "def": 80,
@@ -1168,6 +1519,10 @@
   "name": "Skarmory",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Flying"
+  ],
   "hp": 65,
   "atk": 80,
   "def": 140,
@@ -1180,6 +1535,10 @@
   "name": "Skarmory-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Flying"
+  ],
   "hp": 65,
   "atk": 140,
   "def": 110,
@@ -1192,6 +1551,10 @@
   "name": "Houndoom",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Fire"
+  ],
   "hp": 75,
   "atk": 90,
   "def": 50,
@@ -1204,6 +1567,10 @@
   "name": "Houndoom-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Fire"
+  ],
   "hp": 75,
   "atk": 90,
   "def": 90,
@@ -1216,6 +1583,10 @@
   "name": "Wyrdeer",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Psychic"
+  ],
   "hp": 103,
   "atk": 105,
   "def": 72,
@@ -1228,6 +1599,10 @@
   "name": "Tyranitar",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Dark"
+  ],
   "hp": 100,
   "atk": 134,
   "def": 110,
@@ -1240,6 +1615,10 @@
   "name": "Tyranitar-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Dark"
+  ],
   "hp": 100,
   "atk": 164,
   "def": 150,
@@ -1252,6 +1631,9 @@
   "name": "Sceptile",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 70,
   "atk": 85,
   "def": 65,
@@ -1264,6 +1646,10 @@
   "name": "Sceptile-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
   "hp": 70,
   "atk": 110,
   "def": 75,
@@ -1276,6 +1662,10 @@
   "name": "Blaziken",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
   "hp": 80,
   "atk": 120,
   "def": 70,
@@ -1288,6 +1678,10 @@
   "name": "Blaziken-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
   "hp": 80,
   "atk": 160,
   "def": 80,
@@ -1300,6 +1694,10 @@
   "name": "Swampert",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
   "hp": 100,
   "atk": 110,
   "def": 90,
@@ -1312,6 +1710,10 @@
   "name": "Swampert-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
   "hp": 100,
   "atk": 150,
   "def": 110,
@@ -1324,6 +1726,10 @@
   "name": "Pelipper",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
   "hp": 60,
   "atk": 50,
   "def": 100,
@@ -1336,6 +1742,10 @@
   "name": "Gardevoir",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
   "hp": 68,
   "atk": 65,
   "def": 65,
@@ -1348,6 +1758,10 @@
   "name": "Gardevoir-Mega",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
   "hp": 68,
   "atk": 85,
   "def": 65,
@@ -1360,6 +1774,10 @@
   "name": "Gallade",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Fighting"
+  ],
   "hp": 68,
   "atk": 125,
   "def": 65,
@@ -1372,6 +1790,10 @@
   "name": "Gallade-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Fighting"
+  ],
   "hp": 68,
   "atk": 165,
   "def": 95,
@@ -1384,6 +1806,10 @@
   "name": "Sableye",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Ghost"
+  ],
   "hp": 50,
   "atk": 75,
   "def": 75,
@@ -1396,6 +1822,10 @@
   "name": "Sableye-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Ghost"
+  ],
   "hp": 50,
   "atk": 85,
   "def": 125,
@@ -1408,6 +1838,10 @@
   "name": "Mawile",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Fairy"
+  ],
   "hp": 50,
   "atk": 85,
   "def": 85,
@@ -1420,6 +1854,10 @@
   "name": "Mawile-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Fairy"
+  ],
   "hp": 50,
   "atk": 105,
   "def": 125,
@@ -1432,6 +1870,10 @@
   "name": "Aggron",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Rock"
+  ],
   "hp": 70,
   "atk": 110,
   "def": 180,
@@ -1444,6 +1886,9 @@
   "name": "Aggron-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Steel"
+  ],
   "hp": 70,
   "atk": 140,
   "def": 230,
@@ -1456,6 +1901,10 @@
   "name": "Medicham",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Psychic"
+  ],
   "hp": 60,
   "atk": 60,
   "def": 75,
@@ -1468,6 +1917,10 @@
   "name": "Medicham-Mega",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Psychic"
+  ],
   "hp": 60,
   "atk": 100,
   "def": 85,
@@ -1480,6 +1933,9 @@
   "name": "Manectric",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 70,
   "atk": 75,
   "def": 60,
@@ -1492,6 +1948,9 @@
   "name": "Manectric-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 70,
   "atk": 75,
   "def": 80,
@@ -1504,6 +1963,10 @@
   "name": "Roserade",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
   "hp": 60,
   "atk": 70,
   "def": 65,
@@ -1516,6 +1979,9 @@
   "name": "Swalot",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Poison"
+  ],
   "hp": 100,
   "atk": 73,
   "def": 83,
@@ -1528,6 +1994,10 @@
   "name": "Sharpedo",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
   "hp": 70,
   "atk": 120,
   "def": 40,
@@ -1540,6 +2010,10 @@
   "name": "Sharpedo-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
   "hp": 70,
   "atk": 140,
   "def": 70,
@@ -1552,6 +2026,10 @@
   "name": "Camerupt",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Ground"
+  ],
   "hp": 70,
   "atk": 100,
   "def": 70,
@@ -1564,6 +2042,10 @@
   "name": "Camerupt-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Ground"
+  ],
   "hp": 70,
   "atk": 120,
   "def": 100,
@@ -1576,6 +2058,9 @@
   "name": "Torkoal",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire"
+  ],
   "hp": 70,
   "atk": 85,
   "def": 140,
@@ -1588,6 +2073,10 @@
   "name": "Altaria",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
   "hp": 75,
   "atk": 70,
   "def": 90,
@@ -1600,6 +2089,10 @@
   "name": "Altaria-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Fairy"
+  ],
   "hp": 75,
   "atk": 110,
   "def": 110,
@@ -1612,6 +2105,9 @@
   "name": "Milotic",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 95,
   "atk": 60,
   "def": 79,
@@ -1624,6 +2120,9 @@
   "name": "Castform",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 70,
   "atk": 70,
   "def": 70,
@@ -1636,6 +2135,9 @@
   "name": "Castform-Sunny",
   "tier": null,
   "battleOnly": "Castform",
+  "types": [
+   "Fire"
+  ],
   "hp": 70,
   "atk": 70,
   "def": 70,
@@ -1648,6 +2150,9 @@
   "name": "Castform-Rainy",
   "tier": null,
   "battleOnly": "Castform",
+  "types": [
+   "Water"
+  ],
   "hp": 70,
   "atk": 70,
   "def": 70,
@@ -1660,6 +2165,9 @@
   "name": "Castform-Snowy",
   "tier": null,
   "battleOnly": "Castform",
+  "types": [
+   "Ice"
+  ],
   "hp": 70,
   "atk": 70,
   "def": 70,
@@ -1672,6 +2180,9 @@
   "name": "Banette",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost"
+  ],
   "hp": 64,
   "atk": 115,
   "def": 65,
@@ -1684,6 +2195,9 @@
   "name": "Banette-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost"
+  ],
   "hp": 64,
   "atk": 165,
   "def": 75,
@@ -1696,6 +2210,9 @@
   "name": "Chimecho",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 75,
   "atk": 50,
   "def": 80,
@@ -1708,6 +2225,10 @@
   "name": "Chimecho-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Steel"
+  ],
   "hp": 75,
   "atk": 50,
   "def": 110,
@@ -1720,6 +2241,9 @@
   "name": "Absol",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 65,
   "atk": 130,
   "def": 60,
@@ -1732,6 +2256,9 @@
   "name": "Absol-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 65,
   "atk": 150,
   "def": 60,
@@ -1744,6 +2271,10 @@
   "name": "Absol-Mega-Z",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Ghost"
+  ],
   "hp": 65,
   "atk": 154,
   "def": 60,
@@ -1756,6 +2287,9 @@
   "name": "Glalie",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice"
+  ],
   "hp": 80,
   "atk": 80,
   "def": 80,
@@ -1768,6 +2302,9 @@
   "name": "Glalie-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice"
+  ],
   "hp": 80,
   "atk": 120,
   "def": 80,
@@ -1780,6 +2317,10 @@
   "name": "Froslass",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice",
+   "Ghost"
+  ],
   "hp": 70,
   "atk": 80,
   "def": 70,
@@ -1792,6 +2333,10 @@
   "name": "Froslass-Mega",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Ice",
+   "Ghost"
+  ],
   "hp": 70,
   "atk": 80,
   "def": 70,
@@ -1804,6 +2349,10 @@
   "name": "Salamence",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
   "hp": 95,
   "atk": 135,
   "def": 80,
@@ -1816,6 +2365,10 @@
   "name": "Salamence-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
   "hp": 95,
   "atk": 145,
   "def": 130,
@@ -1828,6 +2381,10 @@
   "name": "Metagross",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
   "hp": 80,
   "atk": 135,
   "def": 130,
@@ -1840,6 +2397,10 @@
   "name": "Metagross-Mega",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
   "hp": 80,
   "atk": 145,
   "def": 150,
@@ -1852,6 +2413,10 @@
   "name": "Torterra",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Ground"
+  ],
   "hp": 95,
   "atk": 109,
   "def": 105,
@@ -1864,6 +2429,10 @@
   "name": "Infernape",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
   "hp": 76,
   "atk": 104,
   "def": 71,
@@ -1876,6 +2445,10 @@
   "name": "Empoleon",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Steel"
+  ],
   "hp": 84,
   "atk": 86,
   "def": 88,
@@ -1888,6 +2461,10 @@
   "name": "Staraptor",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 85,
   "atk": 120,
   "def": 70,
@@ -1900,6 +2477,10 @@
   "name": "Staraptor-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Flying"
+  ],
   "hp": 85,
   "atk": 140,
   "def": 100,
@@ -1912,6 +2493,9 @@
   "name": "Luxray",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 80,
   "atk": 120,
   "def": 79,
@@ -1924,6 +2508,9 @@
   "name": "Rampardos",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock"
+  ],
   "hp": 97,
   "atk": 165,
   "def": 60,
@@ -1936,6 +2523,10 @@
   "name": "Bastiodon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Steel"
+  ],
   "hp": 60,
   "atk": 52,
   "def": 168,
@@ -1948,6 +2539,9 @@
   "name": "Lopunny",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 65,
   "atk": 76,
   "def": 84,
@@ -1960,6 +2554,10 @@
   "name": "Lopunny-Mega",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Fighting"
+  ],
   "hp": 65,
   "atk": 136,
   "def": 94,
@@ -1972,6 +2570,10 @@
   "name": "Spiritomb",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Dark"
+  ],
   "hp": 50,
   "atk": 92,
   "def": 108,
@@ -1984,6 +2586,10 @@
   "name": "Garchomp",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Ground"
+  ],
   "hp": 108,
   "atk": 130,
   "def": 95,
@@ -1996,6 +2602,10 @@
   "name": "Garchomp-Mega",
   "tier": "(OU)",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Ground"
+  ],
   "hp": 108,
   "atk": 170,
   "def": 115,
@@ -2008,6 +2618,9 @@
   "name": "Garchomp-Mega-Z",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Dragon"
+  ],
   "hp": 108,
   "atk": 130,
   "def": 85,
@@ -2020,6 +2633,10 @@
   "name": "Lucario",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Steel"
+  ],
   "hp": 70,
   "atk": 110,
   "def": 70,
@@ -2032,6 +2649,10 @@
   "name": "Lucario-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Steel"
+  ],
   "hp": 70,
   "atk": 145,
   "def": 88,
@@ -2044,6 +2665,10 @@
   "name": "Lucario-Mega-Z",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Steel"
+  ],
   "hp": 70,
   "atk": 100,
   "def": 70,
@@ -2056,6 +2681,9 @@
   "name": "Hippowdon",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Ground"
+  ],
   "hp": 108,
   "atk": 112,
   "def": 118,
@@ -2068,6 +2696,10 @@
   "name": "Toxicroak",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Poison",
+   "Fighting"
+  ],
   "hp": 83,
   "atk": 106,
   "def": 65,
@@ -2080,6 +2712,10 @@
   "name": "Abomasnow",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Ice"
+  ],
   "hp": 90,
   "atk": 92,
   "def": 75,
@@ -2092,6 +2728,10 @@
   "name": "Abomasnow-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Ice"
+  ],
   "hp": 90,
   "atk": 132,
   "def": 105,
@@ -2104,6 +2744,10 @@
   "name": "Rotom",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Ghost"
+  ],
   "hp": 50,
   "atk": 50,
   "def": 77,
@@ -2116,6 +2760,10 @@
   "name": "Rotom-Heat",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Fire"
+  ],
   "hp": 50,
   "atk": 65,
   "def": 107,
@@ -2128,6 +2776,10 @@
   "name": "Rotom-Wash",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Water"
+  ],
   "hp": 50,
   "atk": 65,
   "def": 107,
@@ -2140,6 +2792,10 @@
   "name": "Rotom-Frost",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Ice"
+  ],
   "hp": 50,
   "atk": 65,
   "def": 107,
@@ -2152,6 +2808,10 @@
   "name": "Rotom-Fan",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Flying"
+  ],
   "hp": 50,
   "atk": 65,
   "def": 107,
@@ -2164,6 +2824,10 @@
   "name": "Rotom-Mow",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Grass"
+  ],
   "hp": 50,
   "atk": 65,
   "def": 107,
@@ -2176,6 +2840,9 @@
   "name": "Serperior",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 75,
   "atk": 75,
   "def": 95,
@@ -2188,6 +2855,10 @@
   "name": "Emboar",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
   "hp": 110,
   "atk": 123,
   "def": 65,
@@ -2200,6 +2871,10 @@
   "name": "Emboar-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
   "hp": 110,
   "atk": 148,
   "def": 75,
@@ -2212,6 +2887,9 @@
   "name": "Samurott",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 95,
   "atk": 100,
   "def": 85,
@@ -2224,6 +2902,10 @@
   "name": "Samurott-Hisui",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
   "hp": 90,
   "atk": 108,
   "def": 80,
@@ -2236,6 +2918,9 @@
   "name": "Watchog",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 60,
   "atk": 85,
   "def": 69,
@@ -2248,6 +2933,9 @@
   "name": "Liepard",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 64,
   "atk": 88,
   "def": 50,
@@ -2260,6 +2948,9 @@
   "name": "Simisage",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 75,
   "atk": 98,
   "def": 63,
@@ -2272,6 +2963,9 @@
   "name": "Simisear",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire"
+  ],
   "hp": 75,
   "atk": 98,
   "def": 63,
@@ -2284,6 +2978,9 @@
   "name": "Simipour",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 75,
   "atk": 98,
   "def": 63,
@@ -2296,6 +2993,9 @@
   "name": "Musharna",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 116,
   "atk": 55,
   "def": 85,
@@ -2308,6 +3008,10 @@
   "name": "Excadrill",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Steel"
+  ],
   "hp": 110,
   "atk": 135,
   "def": 60,
@@ -2320,6 +3024,10 @@
   "name": "Excadrill-Mega",
   "tier": "(OU)",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Steel"
+  ],
   "hp": 110,
   "atk": 165,
   "def": 100,
@@ -2332,6 +3040,9 @@
   "name": "Audino",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 103,
   "atk": 60,
   "def": 86,
@@ -2344,6 +3055,10 @@
   "name": "Audino-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Fairy"
+  ],
   "hp": 103,
   "atk": 60,
   "def": 126,
@@ -2356,6 +3071,9 @@
   "name": "Conkeldurr",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 105,
   "atk": 140,
   "def": 95,
@@ -2368,6 +3086,10 @@
   "name": "Scolipede",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
   "hp": 60,
   "atk": 100,
   "def": 89,
@@ -2380,6 +3102,10 @@
   "name": "Scolipede-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
   "hp": 60,
   "atk": 140,
   "def": 149,
@@ -2392,6 +3118,10 @@
   "name": "Whimsicott",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Fairy"
+  ],
   "hp": 60,
   "atk": 67,
   "def": 85,
@@ -2404,6 +3134,10 @@
   "name": "Basculegion",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Ghost"
+  ],
   "hp": 120,
   "atk": 112,
   "def": 65,
@@ -2416,6 +3150,10 @@
   "name": "Basculegion-F",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Ghost"
+  ],
   "hp": 120,
   "atk": 92,
   "def": 65,
@@ -2428,6 +3166,10 @@
   "name": "Krookodile",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Dark"
+  ],
   "hp": 95,
   "atk": 117,
   "def": 80,
@@ -2440,6 +3182,10 @@
   "name": "Scrafty",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Fighting"
+  ],
   "hp": 65,
   "atk": 90,
   "def": 115,
@@ -2452,6 +3198,10 @@
   "name": "Scrafty-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Fighting"
+  ],
   "hp": 65,
   "atk": 130,
   "def": 135,
@@ -2464,6 +3214,9 @@
   "name": "Cofagrigus",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost"
+  ],
   "hp": 58,
   "atk": 50,
   "def": 145,
@@ -2476,6 +3229,10 @@
   "name": "Runerigus",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Ghost"
+  ],
   "hp": 58,
   "atk": 95,
   "def": 145,
@@ -2488,6 +3245,9 @@
   "name": "Garbodor",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Poison"
+  ],
   "hp": 80,
   "atk": 95,
   "def": 82,
@@ -2500,6 +3260,9 @@
   "name": "Zoroark",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 60,
   "atk": 105,
   "def": 60,
@@ -2512,6 +3275,10 @@
   "name": "Zoroark-Hisui",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Ghost"
+  ],
   "hp": 55,
   "atk": 100,
   "def": 60,
@@ -2524,6 +3291,9 @@
   "name": "Reuniclus",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 110,
   "atk": 65,
   "def": 75,
@@ -2536,6 +3306,9 @@
   "name": "Vanilluxe",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice"
+  ],
   "hp": 71,
   "atk": 95,
   "def": 85,
@@ -2548,6 +3321,10 @@
   "name": "Emolga",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Flying"
+  ],
   "hp": 55,
   "atk": 75,
   "def": 60,
@@ -2560,6 +3337,9 @@
   "name": "Eelektross",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 85,
   "atk": 115,
   "def": 80,
@@ -2572,6 +3352,9 @@
   "name": "Eelektross-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 85,
   "atk": 145,
   "def": 80,
@@ -2584,6 +3367,10 @@
   "name": "Chandelure",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Fire"
+  ],
   "hp": 60,
   "atk": 55,
   "def": 90,
@@ -2596,6 +3383,10 @@
   "name": "Chandelure-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Fire"
+  ],
   "hp": 60,
   "atk": 75,
   "def": 110,
@@ -2608,6 +3399,9 @@
   "name": "Beartic",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice"
+  ],
   "hp": 95,
   "atk": 130,
   "def": 80,
@@ -2620,6 +3414,10 @@
   "name": "Stunfisk",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Electric"
+  ],
   "hp": 109,
   "atk": 66,
   "def": 84,
@@ -2632,6 +3430,10 @@
   "name": "Stunfisk-Galar",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Steel"
+  ],
   "hp": 109,
   "atk": 81,
   "def": 99,
@@ -2644,6 +3446,10 @@
   "name": "Golurk",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Ghost"
+  ],
   "hp": 89,
   "atk": 124,
   "def": 80,
@@ -2656,6 +3462,10 @@
   "name": "Golurk-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground",
+   "Ghost"
+  ],
   "hp": 89,
   "atk": 159,
   "def": 105,
@@ -2668,6 +3478,10 @@
   "name": "Hydreigon",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Dragon"
+  ],
   "hp": 92,
   "atk": 105,
   "def": 90,
@@ -2680,6 +3494,10 @@
   "name": "Volcarona",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Fire"
+  ],
   "hp": 85,
   "atk": 60,
   "def": 65,
@@ -2692,6 +3510,10 @@
   "name": "Chesnaught",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
   "hp": 88,
   "atk": 107,
   "def": 122,
@@ -2704,6 +3526,10 @@
   "name": "Chesnaught-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
   "hp": 88,
   "atk": 137,
   "def": 172,
@@ -2716,6 +3542,10 @@
   "name": "Delphox",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Psychic"
+  ],
   "hp": 75,
   "atk": 69,
   "def": 72,
@@ -2728,6 +3558,10 @@
   "name": "Delphox-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Psychic"
+  ],
   "hp": 75,
   "atk": 69,
   "def": 72,
@@ -2740,6 +3574,10 @@
   "name": "Greninja",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
   "hp": 72,
   "atk": 95,
   "def": 67,
@@ -2752,6 +3590,10 @@
   "name": "Greninja-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
   "hp": 72,
   "atk": 125,
   "def": 77,
@@ -2764,6 +3606,10 @@
   "name": "Diggersby",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Ground"
+  ],
   "hp": 85,
   "atk": 56,
   "def": 77,
@@ -2776,6 +3622,10 @@
   "name": "Talonflame",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
   "hp": 78,
   "atk": 81,
   "def": 71,
@@ -2788,6 +3638,10 @@
   "name": "Vivillon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
   "hp": 80,
   "atk": 52,
   "def": 50,
@@ -2800,6 +3654,10 @@
   "name": "Pyroar",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Normal"
+  ],
   "hp": 86,
   "atk": 68,
   "def": 72,
@@ -2812,6 +3670,10 @@
   "name": "Pyroar-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Normal"
+  ],
   "hp": 86,
   "atk": 88,
   "def": 92,
@@ -2824,6 +3686,9 @@
   "name": "Floette-Eternal",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fairy"
+  ],
   "hp": 74,
   "atk": 65,
   "def": 67,
@@ -2836,6 +3701,9 @@
   "name": "Floette-Mega",
   "tier": "UUBL",
   "battleOnly": "Floette-Eternal",
+  "types": [
+   "Fairy"
+  ],
   "hp": 74,
   "atk": 85,
   "def": 87,
@@ -2848,6 +3716,9 @@
   "name": "Florges",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fairy"
+  ],
   "hp": 78,
   "atk": 65,
   "def": 68,
@@ -2860,6 +3731,9 @@
   "name": "Gogoat",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 123,
   "atk": 100,
   "def": 62,
@@ -2872,6 +3746,10 @@
   "name": "Pangoro",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Dark"
+  ],
   "hp": 95,
   "atk": 124,
   "def": 78,
@@ -2884,6 +3762,9 @@
   "name": "Furfrou",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 75,
   "atk": 80,
   "def": 60,
@@ -2896,6 +3777,9 @@
   "name": "Meowstic",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 74,
   "atk": 48,
   "def": 76,
@@ -2908,6 +3792,9 @@
   "name": "Meowstic-M-Mega",
   "tier": "RU",
   "battleOnly": "Meowstic",
+  "types": [
+   "Psychic"
+  ],
   "hp": 74,
   "atk": 48,
   "def": 76,
@@ -2920,6 +3807,9 @@
   "name": "Meowstic-F-Mega",
   "tier": "RU",
   "battleOnly": "Meowstic-F",
+  "types": [
+   "Psychic"
+  ],
   "hp": 74,
   "atk": 48,
   "def": 76,
@@ -2932,6 +3822,10 @@
   "name": "Aegislash",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Ghost"
+  ],
   "hp": 60,
   "atk": 50,
   "def": 140,
@@ -2944,6 +3838,10 @@
   "name": "Aegislash-Blade",
   "tier": null,
   "battleOnly": "Aegislash",
+  "types": [
+   "Steel",
+   "Ghost"
+  ],
   "hp": 60,
   "atk": 140,
   "def": 50,
@@ -2956,6 +3854,9 @@
   "name": "Aromatisse",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fairy"
+  ],
   "hp": 101,
   "atk": 72,
   "def": 72,
@@ -2968,6 +3869,9 @@
   "name": "Slurpuff",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fairy"
+  ],
   "hp": 82,
   "atk": 80,
   "def": 86,
@@ -2980,6 +3884,10 @@
   "name": "Malamar",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Psychic"
+  ],
   "hp": 86,
   "atk": 92,
   "def": 88,
@@ -2992,6 +3900,10 @@
   "name": "Malamar-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Psychic"
+  ],
   "hp": 86,
   "atk": 102,
   "def": 88,
@@ -3004,6 +3916,10 @@
   "name": "Barbaracle",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Water"
+  ],
   "hp": 72,
   "atk": 105,
   "def": 115,
@@ -3016,6 +3932,10 @@
   "name": "Barbaracle-Mega",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Fighting"
+  ],
   "hp": 72,
   "atk": 140,
   "def": 130,
@@ -3028,6 +3948,10 @@
   "name": "Dragalge",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Poison",
+   "Dragon"
+  ],
   "hp": 65,
   "atk": 75,
   "def": 90,
@@ -3040,6 +3964,10 @@
   "name": "Dragalge-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Poison",
+   "Dragon"
+  ],
   "hp": 65,
   "atk": 85,
   "def": 105,
@@ -3052,6 +3980,9 @@
   "name": "Clawitzer",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 71,
   "atk": 73,
   "def": 88,
@@ -3064,6 +3995,10 @@
   "name": "Heliolisk",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Normal"
+  ],
   "hp": 62,
   "atk": 55,
   "def": 52,
@@ -3076,6 +4011,10 @@
   "name": "Tyrantrum",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Dragon"
+  ],
   "hp": 82,
   "atk": 121,
   "def": 119,
@@ -3088,6 +4027,10 @@
   "name": "Aurorus",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Ice"
+  ],
   "hp": 123,
   "atk": 77,
   "def": 72,
@@ -3100,6 +4043,10 @@
   "name": "Hawlucha",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Flying"
+  ],
   "hp": 78,
   "atk": 92,
   "def": 75,
@@ -3112,6 +4059,10 @@
   "name": "Hawlucha-Mega",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Flying"
+  ],
   "hp": 78,
   "atk": 137,
   "def": 100,
@@ -3124,6 +4075,10 @@
   "name": "Dedenne",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Fairy"
+  ],
   "hp": 67,
   "atk": 58,
   "def": 57,
@@ -3136,6 +4091,9 @@
   "name": "Goodra",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dragon"
+  ],
   "hp": 90,
   "atk": 100,
   "def": 70,
@@ -3148,6 +4106,10 @@
   "name": "Goodra-Hisui",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Dragon"
+  ],
   "hp": 80,
   "atk": 100,
   "def": 100,
@@ -3160,6 +4122,10 @@
   "name": "Klefki",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Fairy"
+  ],
   "hp": 57,
   "atk": 80,
   "def": 91,
@@ -3172,6 +4138,10 @@
   "name": "Trevenant",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
   "hp": 85,
   "atk": 110,
   "def": 76,
@@ -3184,6 +4154,10 @@
   "name": "Gourgeist",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
   "hp": 65,
   "atk": 90,
   "def": 122,
@@ -3196,6 +4170,10 @@
   "name": "Gourgeist-Small",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
   "hp": 55,
   "atk": 85,
   "def": 122,
@@ -3208,6 +4186,10 @@
   "name": "Gourgeist-Large",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
   "hp": 75,
   "atk": 95,
   "def": 122,
@@ -3220,6 +4202,10 @@
   "name": "Gourgeist-Super",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
   "hp": 85,
   "atk": 100,
   "def": 122,
@@ -3232,6 +4218,9 @@
   "name": "Avalugg",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice"
+  ],
   "hp": 95,
   "atk": 117,
   "def": 184,
@@ -3244,6 +4233,10 @@
   "name": "Avalugg-Hisui",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ice",
+   "Rock"
+  ],
   "hp": 95,
   "atk": 127,
   "def": 184,
@@ -3256,6 +4249,10 @@
   "name": "Noivern",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Flying",
+   "Dragon"
+  ],
   "hp": 85,
   "atk": 70,
   "def": 80,
@@ -3268,6 +4265,10 @@
   "name": "Decidueye",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Ghost"
+  ],
   "hp": 78,
   "atk": 107,
   "def": 75,
@@ -3280,6 +4281,10 @@
   "name": "Decidueye-Hisui",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
   "hp": 88,
   "atk": 112,
   "def": 80,
@@ -3292,6 +4297,10 @@
   "name": "Incineroar",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Dark"
+  ],
   "hp": 95,
   "atk": 115,
   "def": 90,
@@ -3304,6 +4313,10 @@
   "name": "Primarina",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Fairy"
+  ],
   "hp": 80,
   "atk": 74,
   "def": 74,
@@ -3316,6 +4329,10 @@
   "name": "Toucannon",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 80,
   "atk": 120,
   "def": 75,
@@ -3328,6 +4345,10 @@
   "name": "Crabominable",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Ice"
+  ],
   "hp": 97,
   "atk": 132,
   "def": 77,
@@ -3340,6 +4361,10 @@
   "name": "Crabominable-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Ice"
+  ],
   "hp": 97,
   "atk": 157,
   "def": 122,
@@ -3352,6 +4377,9 @@
   "name": "Lycanroc",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock"
+  ],
   "hp": 75,
   "atk": 115,
   "def": 65,
@@ -3364,6 +4392,9 @@
   "name": "Lycanroc-Midnight",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock"
+  ],
   "hp": 85,
   "atk": 115,
   "def": 75,
@@ -3376,6 +4407,9 @@
   "name": "Lycanroc-Dusk",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock"
+  ],
   "hp": 75,
   "atk": 117,
   "def": 65,
@@ -3388,6 +4422,10 @@
   "name": "Toxapex",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Poison",
+   "Water"
+  ],
   "hp": 50,
   "atk": 63,
   "def": 152,
@@ -3400,6 +4438,9 @@
   "name": "Mudsdale",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground"
+  ],
   "hp": 100,
   "atk": 125,
   "def": 100,
@@ -3412,6 +4453,10 @@
   "name": "Araquanid",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Bug"
+  ],
   "hp": 68,
   "atk": 70,
   "def": 92,
@@ -3424,6 +4469,10 @@
   "name": "Salazzle",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Poison",
+   "Fire"
+  ],
   "hp": 68,
   "atk": 64,
   "def": 60,
@@ -3436,6 +4485,9 @@
   "name": "Tsareena",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 72,
   "atk": 120,
   "def": 98,
@@ -3448,6 +4500,10 @@
   "name": "Oranguru",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Psychic"
+  ],
   "hp": 90,
   "atk": 60,
   "def": 80,
@@ -3460,6 +4516,9 @@
   "name": "Passimian",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 100,
   "atk": 120,
   "def": 90,
@@ -3472,6 +4531,10 @@
   "name": "Golisopod",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Water"
+  ],
   "hp": 75,
   "atk": 125,
   "def": 140,
@@ -3484,6 +4547,10 @@
   "name": "Golisopod-Mega",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
   "hp": 75,
   "atk": 150,
   "def": 175,
@@ -3496,6 +4563,10 @@
   "name": "Mimikyu",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Ghost",
+   "Fairy"
+  ],
   "hp": 55,
   "atk": 90,
   "def": 80,
@@ -3508,6 +4579,10 @@
   "name": "Drampa",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Dragon"
+  ],
   "hp": 78,
   "atk": 60,
   "def": 85,
@@ -3520,6 +4595,10 @@
   "name": "Drampa-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Dragon"
+  ],
   "hp": 78,
   "atk": 85,
   "def": 110,
@@ -3532,6 +4611,10 @@
   "name": "Kommo-o",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Fighting"
+  ],
   "hp": 75,
   "atk": 110,
   "def": 125,
@@ -3544,6 +4627,9 @@
   "name": "Rillaboom",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Grass"
+  ],
   "hp": 100,
   "atk": 125,
   "def": 90,
@@ -3556,6 +4642,9 @@
   "name": "Cinderace",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Fire"
+  ],
   "hp": 80,
   "atk": 116,
   "def": 75,
@@ -3568,6 +4657,9 @@
   "name": "Inteleon",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 70,
   "atk": 85,
   "def": 65,
@@ -3580,6 +4672,10 @@
   "name": "Corviknight",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Flying",
+   "Steel"
+  ],
   "hp": 98,
   "atk": 87,
   "def": 105,
@@ -3592,6 +4688,9 @@
   "name": "Thievul",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 70,
   "atk": 58,
   "def": 58,
@@ -3604,6 +4703,10 @@
   "name": "Flapple",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
   "hp": 70,
   "atk": 110,
   "def": 80,
@@ -3616,6 +4719,10 @@
   "name": "Appletun",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
   "hp": 110,
   "atk": 85,
   "def": 80,
@@ -3628,6 +4735,9 @@
   "name": "Sandaconda",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Ground"
+  ],
   "hp": 72,
   "atk": 107,
   "def": 125,
@@ -3640,6 +4750,10 @@
   "name": "Toxtricity",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Poison"
+  ],
   "hp": 75,
   "atk": 98,
   "def": 70,
@@ -3652,6 +4766,10 @@
   "name": "Toxtricity-Low-Key",
   "tier": null,
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Poison"
+  ],
   "hp": 75,
   "atk": 98,
   "def": 70,
@@ -3664,6 +4782,9 @@
   "name": "Grapploct",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 80,
   "atk": 118,
   "def": 90,
@@ -3676,6 +4797,9 @@
   "name": "Polteageist",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Ghost"
+  ],
   "hp": 60,
   "atk": 65,
   "def": 65,
@@ -3688,6 +4812,10 @@
   "name": "Hatterene",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
   "hp": 57,
   "atk": 90,
   "def": 95,
@@ -3700,6 +4828,10 @@
   "name": "Grimmsnarl",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Fairy"
+  ],
   "hp": 95,
   "atk": 120,
   "def": 65,
@@ -3712,6 +4844,9 @@
   "name": "Alcremie",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fairy"
+  ],
   "hp": 65,
   "atk": 60,
   "def": 75,
@@ -3724,6 +4859,9 @@
   "name": "Falinks",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 65,
   "atk": 100,
   "def": 100,
@@ -3736,6 +4874,9 @@
   "name": "Falinks-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fighting"
+  ],
   "hp": 65,
   "atk": 135,
   "def": 135,
@@ -3748,6 +4889,9 @@
   "name": "Pincurchin",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 48,
   "atk": 101,
   "def": 95,
@@ -3760,6 +4904,10 @@
   "name": "Indeedee",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Normal"
+  ],
   "hp": 60,
   "atk": 65,
   "def": 55,
@@ -3772,6 +4920,10 @@
   "name": "Indeedee-F",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Psychic",
+   "Normal"
+  ],
   "hp": 70,
   "atk": 55,
   "def": 65,
@@ -3784,6 +4936,10 @@
   "name": "Morpeko",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Dark"
+  ],
   "hp": 58,
   "atk": 95,
   "def": 58,
@@ -3796,6 +4952,10 @@
   "name": "Dragapult",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Ghost"
+  ],
   "hp": 88,
   "atk": 120,
   "def": 75,
@@ -3808,6 +4968,10 @@
   "name": "Meowscarada",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Dark"
+  ],
   "hp": 76,
   "atk": 110,
   "def": 70,
@@ -3820,6 +4984,10 @@
   "name": "Skeledirge",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Ghost"
+  ],
   "hp": 104,
   "atk": 75,
   "def": 100,
@@ -3832,6 +5000,10 @@
   "name": "Quaquaval",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Water",
+   "Fighting"
+  ],
   "hp": 85,
   "atk": 120,
   "def": 80,
@@ -3844,6 +5016,9 @@
   "name": "Houndstone",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Ghost"
+  ],
   "hp": 72,
   "atk": 101,
   "def": 100,
@@ -3856,6 +5031,9 @@
   "name": "Espathra",
   "tier": "UUBL",
   "battleOnly": null,
+  "types": [
+   "Psychic"
+  ],
   "hp": 95,
   "atk": 60,
   "def": 60,
@@ -3868,6 +5046,9 @@
   "name": "Palafin",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Water"
+  ],
   "hp": 100,
   "atk": 70,
   "def": 72,
@@ -3880,6 +5061,10 @@
   "name": "Arboliva",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Normal"
+  ],
   "hp": 78,
   "atk": 69,
   "def": 90,
@@ -3892,6 +5077,10 @@
   "name": "Scovillain",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Fire"
+  ],
   "hp": 65,
   "atk": 108,
   "def": 65,
@@ -3904,6 +5093,10 @@
   "name": "Scovillain-Mega",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Fire"
+  ],
   "hp": 65,
   "atk": 138,
   "def": 85,
@@ -3916,6 +5109,9 @@
   "name": "Bellibolt",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Electric"
+  ],
   "hp": 109,
   "atk": 64,
   "def": 91,
@@ -3928,6 +5124,9 @@
   "name": "Orthworm",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Steel"
+  ],
   "hp": 70,
   "atk": 85,
   "def": 145,
@@ -3940,6 +5139,9 @@
   "name": "Maushold",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Normal"
+  ],
   "hp": 74,
   "atk": 75,
   "def": 70,
@@ -3952,6 +5154,10 @@
   "name": "Baxcalibur",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Ice"
+  ],
   "hp": 115,
   "atk": 145,
   "def": 92,
@@ -3964,6 +5170,10 @@
   "name": "Baxcalibur-Mega",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Dragon",
+   "Ice"
+  ],
   "hp": 115,
   "atk": 175,
   "def": 117,
@@ -3976,6 +5186,10 @@
   "name": "Pawmot",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Electric",
+   "Fighting"
+  ],
   "hp": 70,
   "atk": 115,
   "def": 70,
@@ -3988,6 +5202,10 @@
   "name": "Squawkabilly",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 82,
   "atk": 96,
   "def": 51,
@@ -4000,6 +5218,10 @@
   "name": "Squawkabilly-Blue",
   "tier": null,
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 82,
   "atk": 96,
   "def": 51,
@@ -4012,6 +5234,10 @@
   "name": "Squawkabilly-Yellow",
   "tier": null,
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 82,
   "atk": 96,
   "def": 51,
@@ -4024,6 +5250,10 @@
   "name": "Squawkabilly-White",
   "tier": null,
   "battleOnly": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
   "hp": 82,
   "atk": 96,
   "def": 51,
@@ -4036,6 +5266,9 @@
   "name": "Garganacl",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Rock"
+  ],
   "hp": 100,
   "atk": 100,
   "def": 130,
@@ -4048,6 +5281,10 @@
   "name": "Glimmora",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Poison"
+  ],
   "hp": 83,
   "atk": 55,
   "def": 90,
@@ -4060,6 +5297,10 @@
   "name": "Glimmora-Mega",
   "tier": "(OU)",
   "battleOnly": null,
+  "types": [
+   "Rock",
+   "Poison"
+  ],
   "hp": 83,
   "atk": 90,
   "def": 105,
@@ -4072,6 +5313,9 @@
   "name": "Mabosstiff",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Dark"
+  ],
   "hp": 80,
   "atk": 120,
   "def": 90,
@@ -4084,6 +5328,10 @@
   "name": "Gholdengo",
   "tier": "Uber",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Ghost"
+  ],
   "hp": 87,
   "atk": 60,
   "def": 95,
@@ -4096,6 +5344,10 @@
   "name": "Tinkaton",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Fairy",
+   "Steel"
+  ],
   "hp": 85,
   "atk": 75,
   "def": 77,
@@ -4108,6 +5360,10 @@
   "name": "Armarouge",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Psychic"
+  ],
   "hp": 85,
   "atk": 60,
   "def": 100,
@@ -4120,6 +5376,10 @@
   "name": "Ceruledge",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Fire",
+   "Ghost"
+  ],
   "hp": 75,
   "atk": 125,
   "def": 80,
@@ -4132,6 +5392,10 @@
   "name": "Kingambit",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Dark",
+   "Steel"
+  ],
   "hp": 100,
   "atk": 135,
   "def": 120,
@@ -4144,6 +5408,10 @@
   "name": "Annihilape",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Fighting",
+   "Ghost"
+  ],
   "hp": 110,
   "atk": 115,
   "def": 80,
@@ -4156,6 +5424,10 @@
   "name": "Sinistcha",
   "tier": "UU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Ghost"
+  ],
   "hp": 71,
   "atk": 60,
   "def": 106,
@@ -4168,6 +5440,10 @@
   "name": "Archaludon",
   "tier": "OU",
   "battleOnly": null,
+  "types": [
+   "Steel",
+   "Dragon"
+  ],
   "hp": 90,
   "atk": 105,
   "def": 130,
@@ -4180,6 +5456,10 @@
   "name": "Hydrapple",
   "tier": "RU",
   "battleOnly": null,
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
   "hp": 106,
   "atk": 80,
   "def": 110,

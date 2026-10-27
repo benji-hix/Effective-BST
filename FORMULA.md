@@ -7,17 +7,19 @@ Prototype: [research/ebst.py](research/ebst.py) · data: [research/reg-mc-pokemo
 
 ## A | Toggles
 
-- **A1 | Model** — `Simple Sum` or `BSR`.
+- **A1 | Model** — `Effective Sum` (called Simple Sum before 2026-10-26) or `BSR`.
 - **A2 | Trick Room mode** — Speed counts against the Pokémon instead of for it.
-- **A3 | Offense** — `physical`, `special` or `both`. Default: the higher of Atk/SpA. The picker is offered only for **mixed-eligible** Pokémon: lower attacking stat ≥ 75% of the higher (124 of 336 entries).
+- **A3 | Offense** — `physical`, `special` or `both`. Default: the higher of Atk/SpA. The picker is offered only for **mixed-eligible** Pokémon: both Atk and SpA ≥ a flat base-stat minimum. The minimum defaults to 80 (124 of 336 entries) and is adjustable in the app.
 
-## B | Simple Sum (EBST)
+## B | Effective Sum (EBST)
 
 ```
 Offense = Atk | SpA | Atk + SpA
-EBST    = HP + Def + SpD + Offense + Spe     (normal)
-EBST    = HP + Def + SpD + Offense − Spe     (Trick Room)
+EBST    = round(1.4·HP + Def + SpD + Offense + Spe)     (normal)
+EBST    = round(1.4·HP + Def + SpD + Offense − Spe)     (Trick Room)
 ```
+
+HP is weighted 1.4× (see G). Before 2026-10-26 this was the unweighted "Simple Sum".
 
 ## C | BSR model
 
@@ -34,24 +36,24 @@ Adapted from Smogon CAP's Base Stat Rating (X-Act, Rising_Dusk; BSR 4.0 counts o
 5. Combine:
    - single offense: `raw = PT + ST + 2·S` (S = PS or SS)
    - both: `raw = PT + ST + 1.5·(PS + SS)`
-6. Rescale so normal-mode BSR has the same mean and SD as normal-mode EBST (both mean 450). This puts both models on one number line.
+6. Rescale so normal-mode BSR has the same mean and SD as normal-mode EBST (both mean 482). This puts both models on one number line.
 
 ## F | Focus and Speed views (added 2026-10-26)
 
 Two more toggles: **Focus** (`full` / `bulk` / `offense`) and **Speed** (on / off). Trick Room only applies while Speed is on. Full + Speed on is the original score above.
 
-Simple Sum:
+Effective Sum:
 ```
-bulk    = HP + Def + SpD                (+/− Spe if Speed is on)
+bulk    = 1.4·HP + Def + SpD            (+/− Spe if Speed is on)
 offense = attacking stat                (+/− Spe if Speed is on)
 ```
 
 BSR:
 - **bulk** = `PT + ST`. With Speed on, it also adds the standardized speed factor `z(SF)` (`1 − SF` in Trick Room, still standardized against normal mode).
 - **offense** = `2·S` (or `1.5·(PS + SS)` for both). With Speed off, SF is fixed at 0.5, which makes sweepiness equal the statistical attack.
-- Each Focus + Speed combination is rescaled to match the same view in Simple Sum, normal mode (same mean and SD).
+- Each Focus + Speed combination is rescaled to match the same view in Effective Sum, normal mode (same mean and SD).
 
-Bulk with Speed on is the support view, with offense dropped entirely. Top non-Megas in Simple Sum: Umbreon and Aegislash (400) normally, and Bastiodon (336) and Steelix (310) in Trick Room. Top Trick Room offense: Rampardos, Hatterene, Rhyperior.
+Bulk with Speed on is the support view, with offense dropped entirely. Top non-Megas in Effective Sum: Umbreon (438), Garchomp (433) and Snorlax (429) normally; Snorlax (369), Bastiodon (360) and Steelix (340) in Trick Room. Top Trick Room offense: Rampardos, Hatterene, Rhyperior.
 
 These views exist only in [app/ebst.js](app/ebst.js). The Python prototype covers Full + Speed on.
 
@@ -59,20 +61,33 @@ These views exist only in [app/ebst.js](app/ebst.js). The Python prototype cover
 
 | Rank | EBST | EBST (TR) | BSR | BSR (TR) |
 |---|---|---|---|---|
-| 1 | Tyranitar-Mega 605 | Steelix-Mega 495 | Salamence-Mega 611 | Crabominable-Mega 653 |
-| 2 | Metagross-Mega 595 | Golisopod-Mega 480 | Delphox-Mega 605 | Golisopod-Mega 644 |
-| 3 | Baxcalibur-Mega 595 | Aggron-Mega 470 | Metagross-Mega 603 | Chesnaught-Mega 630 |
+| 1 | Tyranitar-Mega 645 | Steelix-Mega 525 | Salamence-Mega 649 | Crabominable-Mega 692 |
+| 2 | Baxcalibur-Mega 641 | Golisopod-Mega 510 | Delphox-Mega 642 | Golisopod-Mega 684 |
+| 3 | Metagross-Mega 627 | Tyranitar-Mega 503 | Metagross-Mega 641 | Chesnaught-Mega 668 |
 
-- Top non-Megas, normal: Baxcalibur 525, Garchomp 520, Tyranitar / Metagross 505.
-- Top non-Megas, Trick Room: Snorlax 415, Avalugg 414, Avalugg-Hisui 404, Rhyperior 400.
-- Most points wasted (BST − EBST): Lucario-Mega and Aegislash-Blade (140 each). Both are mixed-eligible, so that waste disappears when the offense is set to `both`.
-- The two models mostly agree. Rank correlation is 0.95 in normal mode and 0.98 in Trick Room. The biggest gaps involve slow attackers such as Aggron and Rampardos, which BSR rates lower, and fast attackers with average stats such as Absol-Mega and Lycanroc, which BSR rates higher.
+(With HP weighted 1.4×, 2026-10-26.)
+
+- Top non-Megas, normal: Baxcalibur 571, Garchomp 563, Tyranitar 545, Snorlax 539.
+- Top non-Megas, Trick Room: Snorlax 479, Avalugg 452, Rhyperior 446, Avalugg-Hisui 442.
+- Most points in an unused attacking stat: Lucario-Mega and Aegislash-Blade (140 each). Both are mixed-eligible, so nothing is wasted when the offense is set to `both`.
+- The two models mostly agree. Rank correlation is 0.95 in normal mode and 0.98 in Trick Room. The biggest gaps: BSR rates fast attackers with average stats higher (Absol-Mega, Gengar, Alakazam) and slow attackers lower (Rampardos, Aggron).
 
 ## E | Decisions (settled 2026-10-25)
 
-- **E1 | Trick Room scale (Simple Sum)** — Left unshifted. Subtracting Speed drops the average from 450 to 290, so Trick Room numbers are only compared with other Trick Room numbers.
-- **E2 | Mixed threshold** — Kept at 75%, which flags 124 entries.
-- **E3 | BSR "both" weight** — Kept at 1.5 per sweepiness term. This mirrors Simple Sum, where "both" adds a sixth stat.
+- **E1 | Trick Room scale (Effective Sum)** — Left unshifted. Subtracting Speed drops the average from 482 to 322, so Trick Room numbers are only compared with other Trick Room numbers.
+- **E2 | Mixed threshold** — Started as a ratio: the lower attacking stat had to be ≥ 75% of the higher. On 2026-10-26 it changed to a flat, user-adjustable minimum: both attacking base stats ≥ 80 by default (124 entries).
+- **E3 | BSR "both" weight** — Kept at 1.5 per sweepiness term. This mirrors Effective Sum, where "both" adds a sixth stat.
 - **E4 | Edge cases** — Deferred: Body Press (uses Def), Foul Play (uses the target's Atk), Huge/Pure Power, and Speed-changing forms (Aegislash, Palafin-Hero).
+- **E5 | HP weight** — 1.4× (2026-10-26), renaming Simple Sum to Effective Sum. See G.
+
+## G | Why HP counts 1.4×
+
+Bulk follows the damage formula: hits survived ∝ HP × Def against physical attacks and HP × SpD against special ones. So total bulk is `HP·Def + HP·SpD`, using actual level-50 stats (HP = base + 75, the other stats = base + 20).
+
+- One extra point of HP raises total bulk by `Def + SpD`. One point of Def raises it by `HP`. So an HP point is worth `(Def + SpD) / HP` Def points.
+- Across the 336-entry pool, that ratio averages 1.42 (median 1.38; most fall between 1.1 and 1.8).
+- Against a single kind of attack, a Def point is worth more than an HP point, because HP's stat starts larger. HP comes out ahead only because it counts on both sides, and by about 1.4×, not 2×.
+- Ranking agreement between the Sum's bulk and the true `HP·Def + HP·SpD` (rank correlation): 0.988 unweighted, about 0.997 at 1.4×, 0.980 at 2×.
+- A fixed weight can't reward balance (100 HP / 100 Def survives more than 160 HP / 40 Def). The BSR model covers that.
 
 The app ([app/](app/index.html)) implements this spec in [app/ebst.js](app/ebst.js), which matches the Python prototype on all 336 entries.

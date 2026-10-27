@@ -1,285 +1,367 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Effective BST</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  /* Layout: one sticky control band over a single ranked table; Trick Room repaints the accent and the band's grid. */
+  /* Style: apa / sadya brand (~/apa/STYLE.md, phase-7 calibration). Dark-first.
+     Hairline boxes, no fills; square corners except pills; space separates rows, never lines.
+     Layout: sticky control band, then one boxed ranking table, then a ⋯ explainer list. */
   :root {
-    --bg: #f2f3f7;
-    --surface: #ffffff;
-    --ink: #14161d;
-    --muted: #5e6475;
-    --line: #dde0e9;
-    --accent: #2645c4;
-    --tr: #b0237b;
-    --neg: #b8402c;
-    --unused: #a4a9b8;
-    --bar: #e6e9f2;
-    --cur: var(--accent);
-    --font-display: "Saira Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
-    --font-body: "Public Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0e1015; --surface: #161922; --ink: #e8eaf1; --muted: #9ba2b4; --line: #282d3a;
-      --accent: #8199ff; --tr: #ff6cc4; --neg: #ff8b74; --unused: #596072; --bar: #222735;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0e1015; --surface: #161922; --ink: #e8eaf1; --muted: #9ba2b4; --line: #282d3a;
-    --accent: #8199ff; --tr: #ff6cc4; --neg: #ff8b74; --unused: #596072; --bar: #222735;
+    --paper: #e8e3e4; --wall: #100c0e;
+    --seal: #961e14; --seal-deep: #731c15;
+    --lavender: #5d5382; --lav-deep: #4a4168;
+    --surface: var(--wall);
+    --fg-strong: #e8e3e4; --fg: #a59699; --fg-secondary: #615254; --fg-muted: #382f30; --fg-faint: #241d20;
+    --lav-text: #574f78;
+    --accent: var(--seal); --accent-deep: var(--seal-deep);
+    --rule: rgba(232, 227, 228, 0.10);
+    --h-1: var(--accent); --h-2: var(--lav-text); --h-3: var(--lav-text); --h-4: var(--fg);
+    --serif: "Crimson Pro", "Iowan Old Style", Georgia, serif;
+    --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --page: 1060px;
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     color-scheme: dark;
   }
-  :root.tr { --cur: var(--tr); }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --surface: var(--paper); --lav-text: var(--lavender);
+      --fg-strong: #1d1719; --fg: #332b2e; --fg-secondary: #6b5e5b; --fg-muted: #8a7a78; --fg-faint: #a89e9c;
+      --rule: rgba(16, 12, 14, 0.12);
+      color-scheme: light;
+    }
+  }
+  :root[data-theme="light"] {
+    --surface: var(--paper); --lav-text: var(--lavender);
+    --fg-strong: #1d1719; --fg: #332b2e; --fg-secondary: #6b5e5b; --fg-muted: #8a7a78; --fg-faint: #a89e9c;
+    --rule: rgba(16, 12, 14, 0.12);
+    color-scheme: light;
+  }
 
+  * { box-sizing: border-box; }
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.45;
+    margin: 0; background: var(--surface); color: var(--fg);
+    font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
   }
   body::before {
     content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
     z-index: 10; background: var(--surface);
   }
-  .wrap {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  h1 { font-family: var(--serif); font-weight: 400; margin: 0; text-wrap: balance; color: var(--fg); font-size: 30px; line-height: 1.24; }
+  p { margin: 0; max-width: 66ch; }
+  .kicker { font-size: 12px; text-transform: lowercase; letter-spacing: 0.09em; color: var(--fg-muted); }
+  .gutter {
+    max-width: var(--page); margin: 0 auto;
+    padding-left: max(32px, env(safe-area-inset-left, 0px));
+    padding-right: max(32px, env(safe-area-inset-right, 0px));
   }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  /* Control band */
-  .top {
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    z-index: 5;
-    background: var(--surface);
-    border-bottom: 1px solid var(--line);
-  }
-  :root.tr .top {
-    background-image:
-      linear-gradient(color-mix(in srgb, var(--tr) 9%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in srgb, var(--tr) 9%, transparent) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-  .top .wrap {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-    gap: 12px 24px; padding-block: 14px;
-  }
-  h1 {
-    font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1;
-    margin: 0; letter-spacing: 0.01em; text-wrap: balance;
-  }
-  h1 span { color: var(--cur); transition: color .2s; }
-  .sub { margin: 4px 0 0; color: var(--muted); font-size: 12.5px; }
-  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  /* Header */
+  header .inner { display: flex; flex-direction: column; gap: 12px; padding-block: 64px 8px; }
 
+  /* Settings panel: one hairline box, a "score" row and a "filter" row; every control is its own cell.
+     Wide: a 4-column grid so cells line up across rows. Narrower: each row wraps its cells. */
+  .panel {
+    display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr));
+    border: 0.5px solid var(--rule);
+  }
+  .panel-row { display: contents; }
+  .row-label {
+    font-family: var(--mono); font-size: 11px; text-transform: lowercase; letter-spacing: 0.08em;
+    color: var(--lav-text); padding: 20px 28px 20px 26px;
+  }
+  .control { display: flex; flex-direction: column; gap: 8px; padding: 18px 28px; min-width: 0; border-left: 0.5px solid var(--rule); }
+  .panel-row + .panel-row > * { border-top: 0.5px solid var(--rule); }
+  .slabel {
+    font-family: var(--mono); font-size: 11px; text-transform: lowercase; letter-spacing: 0.08em; color: var(--fg-muted);
+  }
+  .hint { font-family: var(--mono); font-size: 11px; color: var(--fg-secondary); }
+  .control-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  .control select, .control input[type="number"] {
+    font: 14px var(--sans); color: var(--fg); background: var(--surface);
+    border: 0.5px solid var(--rule); border-radius: 0; padding: 5px 8px;
+  }
+  .control input[type="number"] { font-family: var(--mono); width: 4.2em; text-align: right; }
+  .control-line label { font-size: 13px; color: var(--fg-secondary); display: inline-flex; align-items: center; gap: 8px; }
+  .control select { align-self: flex-start; }
+  .chips { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: var(--sans); font-size: 12px; padding: 1px 10px; border: 0.5px solid var(--rule);
+    border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer;
+    transition: color 180ms var(--ease), border-color 180ms var(--ease);
+  }
+  .chip .x { color: var(--fg-muted); margin-left: 4px; }
+  .chip:hover, .chip:hover .x { color: var(--fg-strong); border-color: var(--accent); }
+
+  /* Segmented pick-one: a hairline track; the chosen option carries the oxblood outline. */
   .seg {
-    display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
-    background: var(--bg);
+    display: inline-flex; align-self: flex-start; gap: 2px; padding: 3px;
+    border: 0.5px solid var(--rule); border-radius: 999px;
   }
   .seg button {
-    font: 600 13px var(--font-body); color: var(--muted); background: none; border: 0;
-    padding: 8px 14px; cursor: pointer;
+    font-family: var(--sans); font-size: 13px; padding: 4px 14px; border: 0.5px solid transparent;
+    border-radius: 999px; background: transparent; color: var(--fg-secondary); cursor: pointer;
+    transition: color 180ms var(--ease), border-color 180ms var(--ease);
   }
-  .seg button + button { border-left: 1px solid var(--line); }
-  .seg button[aria-pressed="true"] { background: var(--cur); color: var(--surface); }
+  .seg button:hover { color: var(--fg-strong); }
+  .seg button[aria-checked="true"] { color: var(--fg-strong); border-color: var(--accent); }
 
-  .tr-toggle {
-    font: 600 13px var(--font-body); display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 14px; border-radius: 8px; cursor: pointer;
-    border: 1px solid var(--line); background: var(--bg); color: var(--ink);
-  }
-  .tr-toggle .knob {
-    width: 28px; height: 16px; border-radius: 8px; background: var(--line); position: relative;
-    transition: background .2s;
-  }
-  .tr-toggle .knob::after {
-    content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
-    border-radius: 50%; background: var(--surface); transition: transform .2s;
-  }
-  .tr-toggle[aria-pressed="true"] { border-color: var(--cur); color: var(--cur); }
-  .tr-toggle[aria-pressed="true"] .knob { background: var(--cur); }
-  .tr-toggle[aria-pressed="true"] .knob::after { transform: translateX(12px); }
-  .tr-toggle:disabled { opacity: 0.45; cursor: not-allowed; }
+  /* Main */
+  main { display: flex; flex-direction: column; padding-block: 40px; }
+  section { margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px; }
+  section:last-of-type { margin-bottom: 0; }
+  .count { font-family: var(--mono); font-size: 12px; color: var(--fg-muted); font-variant-numeric: tabular-nums; }
+  .sub { font-size: 14px; color: var(--fg-muted); line-height: 1.5; }
+  .sub b { font-weight: 500; color: var(--fg); }
 
-  button:focus-visible, input:focus-visible, summary:focus-visible {
-    outline: 2px solid var(--cur); outline-offset: 2px;
+  /* Rankings toolbar: search and export only. */
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  .toolbar input[type="search"] {
+    font: 15px var(--sans); color: var(--fg); background: transparent; flex: 1 1 240px; max-width: 360px;
+    border: 0.5px solid var(--rule); border-radius: 0; padding: 7px 12px;
   }
+  .toolbar input[type="search"]::placeholder { color: var(--fg-muted); }
+  .toolbar-end { display: inline-flex; align-items: center; gap: 14px; }
+  .pill {
+    font-family: var(--sans); font-size: 13px; padding: 5px 14px; border: 0.5px solid var(--rule);
+    border-radius: 999px; background: transparent; color: var(--fg-secondary); cursor: pointer;
+    transition: color 180ms var(--ease);
+  }
+  .pill:hover { color: var(--fg-strong); }
+  .textbtn {
+    font-family: var(--mono); font-size: 12px; color: var(--fg-secondary); background: none; border: 0;
+    padding: 0; cursor: pointer; transition: color 180ms var(--ease);
+  }
+  .textbtn:hover { color: var(--fg-strong); }
 
-  /* Filters */
-  main { padding-block: 18px 48px; display: grid; gap: 14px; }
-  .filters { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
-  .filters input[type="search"] {
-    font: 14px var(--font-body); color: var(--ink); background: var(--surface);
-    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; width: 220px; max-width: 100%;
-  }
-  .filters label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); cursor: pointer; }
-  .filters input[type="checkbox"] { accent-color: var(--cur); }
-  .link-btn {
-    font: 500 13px var(--font-body); color: var(--cur); background: none; border: 0; padding: 0;
-    cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
-  }
-  .mode-note { margin: 0; color: var(--muted); max-width: 70ch; }
-  .mode-note b { color: var(--ink); font-weight: 600; }
-
-  /* Table */
-  .table-wrap {
-    overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-  }
-  table { border-collapse: collapse; width: 100%; min-width: 760px; font-variant-numeric: tabular-nums; }
-  th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
-  tbody tr:last-child td { border-bottom: 0; }
+  /* Ranking table: one hairline box, rows separated by space */
+  .list { border: 0.5px solid var(--rule); border-radius: 0; padding: 14px 0; }
+  /* Still swipe/trackpad-scrollable when narrow, but without scroll-bar chrome. */
+  .table-scroll { overflow-x: auto; scrollbar-width: none; }
+  .table-scroll::-webkit-scrollbar { display: none; }
+  table { border-collapse: collapse; width: 100%; min-width: 720px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 9px 12px; text-align: right; white-space: nowrap; vertical-align: baseline; }
+  th:first-child, td:first-child { padding-left: 26px; }
+  th:last-child, td:last-child { padding-right: 26px; }
   th {
-    font: 700 12px var(--font-display); letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); background: var(--surface); position: sticky; top: 0;
+    font-family: var(--mono); font-weight: 400; font-size: 11px; text-transform: lowercase;
+    letter-spacing: 0.08em; color: var(--fg-muted); padding-bottom: 14px;
   }
-  th button { all: unset; cursor: pointer; }
-  th button:focus-visible { outline: 2px solid var(--cur); outline-offset: 2px; }
-  th[aria-sort="descending"] button::after { content: " ↓"; color: var(--cur); }
-  th[aria-sort="ascending"] button::after { content: " ↑"; color: var(--cur); }
+  th button { all: unset; cursor: pointer; transition: color 180ms var(--ease); }
+  th button:hover { color: var(--fg-strong); }
+  th button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  th[aria-sort="descending"] button, th[aria-sort="ascending"] button { color: var(--fg); }
+  th[aria-sort="descending"] button::after { content: " ↓"; color: var(--accent); }
+  th[aria-sort="ascending"] button::after { content: " ↑"; color: var(--accent); }
   .l { text-align: left; }
-  .rank { color: var(--muted); width: 2.5em; }
-  .name { font-weight: 600; position: sticky; left: 0; background: var(--surface); }
-  .name .mega {
-    font: 700 10px var(--font-display); letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; margin-left: 6px;
+  td.rank { font-family: var(--mono); font-size: 12px; color: var(--fg-muted); width: 3em; }
+  td.name { font-size: 16px; color: var(--fg); position: sticky; left: 0; background: var(--surface); }
+  th.name { position: sticky; left: 0; background: var(--surface); }
+  .tag {
+    font-family: var(--mono); font-size: 11px; text-transform: lowercase; letter-spacing: 0.06em;
+    color: var(--fg-muted); border: 0.5px solid var(--rule); border-radius: 999px; padding: 0 8px; margin-left: 8px;
   }
-  td.stat { color: var(--ink); width: 3.2em; }
-  td.stat.unused { color: var(--unused); text-decoration: line-through; }
-  td.stat.neg { color: var(--neg); font-weight: 600; }
-  td.bst { color: var(--muted); }
-  .stat-sep { border-left: 1px solid var(--line); }
+  td.stat { font-family: var(--mono); font-size: 14px; color: var(--fg); width: 3.4em; }
+  td.stat.unused { color: var(--fg-muted); text-decoration: line-through; }
+  td.stat.neg { color: var(--accent); }
+  td.bst { font-family: var(--mono); font-size: 14px; color: var(--fg-secondary); }
 
-  .off { display: inline-flex; gap: 2px; }
-  .off button {
-    font: 600 11.5px var(--font-body); color: var(--muted); background: var(--bg);
-    border: 1px solid var(--line); border-radius: 5px; padding: 2px 7px; cursor: pointer;
+  .seg.off { padding: 2px; }
+  .seg.off button { font-size: 12px; padding: 0 10px; }
+  .off-fixed { font-size: 13px; color: var(--fg-secondary); }
+  .off-idle button, .off-idle.off-fixed { color: var(--fg-muted); }
+  .off-idle button[aria-checked="true"] { border-color: var(--rule); }
+
+  td.score { width: 190px; }
+  .score-cell { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+  .score-bar { height: 3px; background: var(--rule); }
+  .score-bar i { display: block; height: 100%; background: var(--lavender); }
+  .score-num { font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--fg-strong); min-width: 2.6em; }
+  td.empty { text-align: center; color: var(--fg-muted); padding: 32px 26px; font-size: 14px; }
+
+  /* Footer */
+  footer { margin-top: 24px; padding-block: 22px 56px; color: var(--fg-faint); font-size: 13px; }
+  footer .inner { padding-top: 20px; border-top: 0.5px solid var(--rule); }
+  .endmark { display: flex; justify-content: center; padding-top: 22px; }
+
+  @media (max-width: 1000px) {
+    .panel { display: block; }
+    .panel-row { display: flex; flex-wrap: wrap; gap: 16px 36px; padding: 18px 22px; }
+    .panel-row + .panel-row { border-top: 0.5px solid var(--rule); }
+    .panel-row + .panel-row > * { border-top: 0; }
+    .row-label { flex-basis: 100%; padding: 0; }
+    .control { padding: 0; border-left: 0; }
   }
-  .off button[aria-pressed="true"] { background: var(--cur); border-color: var(--cur); color: var(--surface); }
-  .off-fixed { color: var(--muted); font-size: 12.5px; padding-right: 4px; }
-  .off-idle { opacity: 0.4; }
-
-  td.score { width: 180px; }
-  .score-cell { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; }
-  .score-bar { height: 6px; border-radius: 3px; background: var(--bar); overflow: hidden; }
-  .score-bar i { display: block; height: 100%; background: var(--cur); border-radius: 3px; }
-  .score-num { font: 700 19px var(--font-display); min-width: 2.4em; }
-  .empty { text-align: center; color: var(--muted); padding: 32px 10px; }
-
-  /* Explainer */
-  details.how { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
-  details.how summary { cursor: pointer; font-weight: 600; }
-  .how-body { display: grid; gap: 10px; padding-top: 10px; max-width: 72ch; color: var(--muted); }
-  .how-body p { margin: 0; }
-  .how-body code {
-    font: 13px ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--ink);
-    background: var(--bg); border-radius: 4px; padding: 1px 5px;
+  @media (max-width: 960px) {
+    th, td { padding-left: 7px; padding-right: 7px; }
+    th:first-child, td:first-child { padding-left: 16px; }
+    th:last-child, td:last-child { padding-right: 16px; }
+    td.score { width: auto; }
+    th.score { white-space: normal; width: 5.5em; }
+    th[data-sort="hp"] { white-space: normal; }
+    .seg.off button { padding: 0 7px; }
+    .tag { margin-left: 6px; padding: 0 6px; }
+    .score-cell { grid-template-columns: auto; }
+    .score-bar { display: none; }
   }
-  .how-body h3 { font: 700 15px var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin: 6px 0 0; }
-
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (max-width: 640px) {
+    .gutter {
+      padding-left: max(22px, env(safe-area-inset-left, 0px));
+      padding-right: max(22px, env(safe-area-inset-right, 0px));
+    }
+    header .inner { padding-top: 40px; }
+    .panel-row { flex-direction: column; gap: 18px; padding: 16px 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 
-<header class="top">
-  <div class="wrap">
-    <div>
-      <h1>Effective <span>BST</span></h1>
-      <p class="sub">VGC 2026 Reg M-C · Pokémon Champions · <span id="pool-count"></span> Pokémon</p>
-    </div>
-    <div class="controls">
-      <div class="seg" role="group" aria-label="Model">
-        <button type="button" id="model-sum" data-model="sum" aria-pressed="true">Simple Sum</button>
-        <button type="button" id="model-bsr" data-model="bsr" aria-pressed="false">BSR</button>
-      </div>
-      <div class="seg" role="group" aria-label="Focus">
-        <button type="button" id="focus-full" data-focus="full" aria-pressed="true">Full</button>
-        <button type="button" id="focus-bulk" data-focus="bulk" aria-pressed="false">Bulk</button>
-        <button type="button" id="focus-offense" data-focus="offense" aria-pressed="false">Offense</button>
-      </div>
-      <button type="button" class="tr-toggle" id="count-speed" aria-pressed="true">
-        <span class="knob" aria-hidden="true"></span>Speed
-      </button>
-      <button type="button" class="tr-toggle" id="trick-room" aria-pressed="false">
-        <span class="knob" aria-hidden="true"></span>Trick Room
-      </button>
-    </div>
+<header class="gutter">
+  <div class="inner">
+    <p class="kicker">effective bst · vgc 2026 reg m-c · pokémon champions</p>
+    <h1>Effective BST</h1>
   </div>
 </header>
 
-<main class="wrap">
-  <div class="filters">
-    <input type="search" id="search" placeholder="Search Pokémon" aria-label="Search Pokémon" autocomplete="off">
-    <label><input type="checkbox" id="show-megas" checked> Megas</label>
-    <label><input type="checkbox" id="mixed-only"> Mixed attackers only</label>
-    <button type="button" class="link-btn" id="reset-picks" hidden></button>
-  </div>
-  <p class="mode-note" id="mode-note"></p>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="rank" data-sort="score">#</th>
-          <th class="l name" data-sort="name"><button type="button">Pokémon</button></th>
-          <th class="stat-sep" data-sort="hp"><button type="button">HP</button></th>
-          <th data-sort="atk"><button type="button">Atk</button></th>
-          <th data-sort="def"><button type="button">Def</button></th>
-          <th data-sort="spa"><button type="button">SpA</button></th>
-          <th data-sort="spd"><button type="button">SpD</button></th>
-          <th data-sort="spe"><button type="button">Spe</button></th>
-          <th class="l stat-sep">Offense</th>
-          <th data-sort="bst"><button type="button">BST</button></th>
-          <th class="l score" data-sort="score"><button type="button" id="score-head">Effective BST</button></th>
-        </tr>
-      </thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
-
-  <details class="how" id="how">
-    <summary>How the scores work</summary>
-    <div class="how-body">
-      <p>Raw BST counts every base stat, including an attacking stat the Pokémon never uses. Effective BST counts only the stats it actually uses.</p>
-      <h3>Simple Sum</h3>
-      <p><code>HP + Def + SpD + attacking stat + Spe</code>. In Trick Room, Speed is subtracted instead: <code>HP + Def + SpD + attacking stat − Spe</code>, so slower Pokémon score higher.</p>
-      <h3>Focus and Speed</h3>
-      <p><b>Bulk</b> scores only <code>HP + Def + SpD</code>, which suits support Pokémon that don't need to attack. <b>Offense</b> scores only the attacking stat. <b>Speed</b> adds Speed to whichever view you pick, or subtracts it in Trick Room. Bulk with Speed on is a support score. Turn Speed off for pure tankiness or pure power; Trick Room has no effect while Speed is off.</p>
-      <h3>BSR</h3>
-      <p>Based on Smogon's Base Stat Rating. Bulk is HP × Def and HP × SpD. Offense scales the attacking stat by the share of the pool this Pokémon outspeeds, or in Trick Room the share it moves before. Each part is standardized across the pool, then the total is rescaled so the average matches Simple Sum (450).</p>
-      <h3>Offense</h3>
-      <p>Each Pokémon uses its higher attacking stat. When the lower one is at least 75% of the higher, you can switch it to Phys, Spec or Both. Crossed-out stats aren't counted. Your picks are saved in this browser.</p>
-      <p>Base stats come from Pokémon Showdown's data for VGC 2026 Reg M-C. Mythical and Restricted Legendary Pokémon are excluded, and Megas are listed separately.</p>
+<main class="gutter">
+  <section aria-label="Settings">
+    <div class="panel">
+    <div class="panel-row" role="group" aria-label="Scoring">
+    <span class="row-label">score</span>
+    <div class="control">
+      <span class="slabel" id="label-model">model</span>
+      <div class="seg" role="radiogroup" aria-labelledby="label-model" data-group="model">
+        <button type="button" role="radio" id="model-sum" data-value="sum">Effective Sum</button>
+        <button type="button" role="radio" id="model-bsr" data-value="bsr">BSR</button>
+      </div>
+      <span class="hint" id="hint-model"></span>
     </div>
-  </details>
+    <div class="control">
+      <span class="slabel" id="label-focus">focus</span>
+      <div class="seg" role="radiogroup" aria-labelledby="label-focus" data-group="focus">
+        <button type="button" role="radio" id="focus-full" data-value="full">Full</button>
+        <button type="button" role="radio" id="focus-bulk" data-value="bulk">Bulk</button>
+        <button type="button" role="radio" id="focus-offense" data-value="offense">Offense</button>
+      </div>
+      <span class="hint" id="hint-focus"></span>
+    </div>
+    <div class="control">
+      <span class="slabel" id="label-speed">speed</span>
+      <div class="seg" role="radiogroup" aria-labelledby="label-speed" data-group="speed">
+        <button type="button" role="radio" id="speed-off" data-value="off">Off</button>
+        <button type="button" role="radio" id="speed-on" data-value="on">On</button>
+        <button type="button" role="radio" id="speed-tr" data-value="tr">Trick Room</button>
+      </div>
+      <span class="hint" id="hint-speed"></span>
+    </div>
+    </div>
+    <div class="panel-row" role="group" aria-label="Filters">
+    <span class="row-label">filter</span>
+    <div class="control">
+      <label class="slabel" for="type-filter">type</label>
+      <select id="type-filter" aria-label="Show only this type">
+        <option value="">Any type</option>
+      </select>
+      <div class="control-line">
+        <select id="type-exclude" aria-label="Exclude a type"></select>
+        <span class="chips" id="excluded-types"></span>
+      </div>
+      <span class="hint" id="hint-type"></span>
+    </div>
+    <div class="control">
+      <span class="slabel" id="label-megas">megas</span>
+      <div class="seg" role="radiogroup" aria-labelledby="label-megas" data-group="megas">
+        <button type="button" role="radio" data-value="include">Include</button>
+        <button type="button" role="radio" data-value="exclude">Exclude</button>
+        <button type="button" role="radio" data-value="only">Only</button>
+      </div>
+      <span class="hint" id="hint-megas"></span>
+    </div>
+    <div class="control">
+      <span class="slabel" id="label-mixed">mixed attackers</span>
+      <div class="control-line">
+        <div class="seg" role="radiogroup" aria-labelledby="label-mixed" data-group="mixed">
+          <button type="button" role="radio" data-value="all">All</button>
+          <button type="button" role="radio" data-value="only">Only</button>
+        </div>
+        <label for="mixed-threshold" title="A Pokémon counts as a mixed attacker, and gets the Phys / Spec / Both picker, when both its Atk and SpA are at least this base stat.">
+          both attacks ≥ <input type="number" id="mixed-threshold" min="0" max="255" step="5" inputmode="numeric">
+        </label>
+      </div>
+      <span class="hint"><span id="hint-mixed"></span> <button type="button" class="textbtn" id="reset-picks" hidden></button></span>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <section aria-label="Rankings">
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="Search Pokémon" aria-label="Search Pokémon" autocomplete="off">
+      <span class="toolbar-end">
+        <span class="count" id="shown-count"></span>
+        <button type="button" class="pill" id="export-csv">Export CSV</button>
+      </span>
+    </div>
+    <div class="list">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="l">#</th>
+              <th class="l name" data-sort="name"><button type="button">pokémon</button></th>
+              <th data-sort="hp"><button type="button" id="hp-head">hp</button></th>
+              <th data-sort="atk"><button type="button">atk</button></th>
+              <th data-sort="def"><button type="button">def</button></th>
+              <th data-sort="spa"><button type="button">spa</button></th>
+              <th data-sort="spd"><button type="button">spd</button></th>
+              <th data-sort="spe"><button type="button">spe</button></th>
+              <th class="l">offense</th>
+              <th data-sort="bst"><button type="button">bst</button></th>
+              <th class="l score" data-sort="score"><button type="button" id="score-head">effective bst</button></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 </main>
 
+<footer class="gutter">
+  <div class="inner"><span id="footer-state"></span></div>
+  <div class="endmark" aria-hidden="true">
+    <svg viewBox="0 0 55 44" width="26" height="21"><path d="M4,22 H14 C18,22 18,6 23,6 C28,6 28,32.7 33,32.7 C37,32.7 37,22 41,22 H51" fill="none" stroke="var(--fg-secondary)" stroke-width="2.75" stroke-linecap="round"/></svg>
+  </div>
+</footer>
+
 <!-- The ?v= forces browsers to fetch fresh copies; keep it equal to EBST.VERSION. -->
-<script src="pokemon-data.js?v=2"></script>
-<script src="ebst.js?v=2"></script>
+<script src="pokemon-data.js?v=6"></script>
+<script src="ebst.js?v=6"></script>
 <script>
-  var EBST_VERSION = 2;
+  var EBST_VERSION = 6;
   if (EBST.VERSION !== EBST_VERSION) {
-    document.querySelector('main').innerHTML = '<p class="mode-note"><b>An outdated copy of the scoring code'
+    document.querySelector('main').innerHTML = '<p class="sub"><b>An outdated copy of the scoring code'
       + ' loaded, so scores would be wrong.</b> Reload the page while holding Shift to fetch the current version.</p>';
     throw new Error('ebst.js version ' + EBST.VERSION + ' loaded; page expects ' + EBST_VERSION);
   }
   var STORE_KEY = 'effective-bst-v1';
   var model = EBST.buildModel(POKEMON);
-  var SAVED_KEYS = ['model', 'focus', 'speed', 'trickRoom', 'megas', 'mixedOnly', 'picks'];
-  var state = { model: 'sum', focus: 'full', speed: true, trickRoom: false, megas: true, mixedOnly: false,
-                search: '', sort: 'score', dir: 'desc', picks: {} };
+  var SAVED_KEYS = ['model', 'focus', 'speed', 'trickRoom', 'megas', 'mixedOnly', 'mixedMin', 'picks', 'excludedTypes'];
+  var state = { model: 'sum', focus: 'full', speed: true, trickRoom: false, megas: 'include', mixedOnly: false,
+                mixedMin: EBST.MIXED_MIN, search: '', type: '', excludedTypes: [], sort: 'score', dir: 'desc',
+                picks: {} };
 
   try {
     var saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
     if (saved) SAVED_KEYS.forEach(function (k) {
       if (k in saved) state[k] = saved[k];
     });
+    // Older saves stored megas as a checkbox boolean.
+    if (typeof state.megas === 'boolean') state.megas = state.megas ? 'include' : 'exclude';
+    if (!Array.isArray(state.excludedTypes)) state.excludedTypes = [];
   } catch (e) {}
 
   function save() {
@@ -291,22 +373,50 @@
   }
 
   var SCORE_NAME = {
-    sum: { full: 'Effective BST', bulk: 'Effective Bulk', offense: 'Effective Offense' },
-    bsr: { full: 'BSR', bulk: 'BSR Bulk', offense: 'BSR Offense' }
+    sum: { full: 'effective bst', bulk: 'effective bulk', offense: 'effective offense' },
+    bsr: { full: 'bsr', bulk: 'bsr bulk', offense: 'bsr offense' }
+  };
+  var LABEL = { physical: 'Phys', special: 'Spec', both: 'Both' };
+  var HINTS = {
+    model: { sum: 'hp ×1.4 + stats used', bsr: 'smogon base stat rating' },
+    focus: { full: 'every stat it uses', bulk: 'hp · def · spd', offense: 'attacking stat only' },
+    speed: { off: 'speed ignored', on: 'faster scores higher', tr: 'slower scores higher' },
+    megas: { include: 'listed beside base forms', exclude: 'base forms only', only: 'megas only' }
+  };
+  // Speed is one three-way choice, stored as the speed / trickRoom pair the scorer takes.
+  var CHOOSE = {
+    model: function (v) { return { model: v }; },
+    focus: function (v) { return { focus: v }; },
+    speed: function (v) { return { speed: v !== 'off', trickRoom: v === 'tr' }; },
+    megas: function (v) { return { megas: v }; },
+    mixed: function (v) { return { mixedOnly: v === 'only' }; }
   };
 
-  var LABEL = { physical: 'Phys', special: 'Spec', both: 'Both' };
+  function choices() {
+    return { model: state.model, focus: state.focus,
+             speed: !state.speed ? 'off' : state.trickRoom ? 'tr' : 'on',
+             megas: state.megas, mixed: state.mixedOnly ? 'only' : 'all' };
+  }
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return s.replace(/[&<>"]/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); };
 
+  function isMixed(p) {
+    return EBST.isMixed(p, state.mixedMin);
+  }
+
+  // Picks for Pokémon below the current split stay saved but don't apply.
   function offenseFor(p) {
-    return (EBST.isMixed(p) && state.picks[p.name]) || EBST.defaultOffense(p);
+    return (isMixed(p) && state.picks[p.name]) || EBST.defaultOffense(p);
+  }
+
+  function activePickCount() {
+    return model.pool.filter(function (p) { return state.picks[p.name] && isMixed(p); }).length;
   }
 
   function computeRows() {
     var rows = model.pool.map(function (p) {
       var mode = offenseFor(p);
-      return { p: p, mode: mode, mixed: EBST.isMixed(p), bst: EBST.bst(p),
+      return { p: p, mode: mode, mixed: isMixed(p), bst: EBST.bst(p),
                score: model.score(p, { model: state.model, mode: mode, trickRoom: state.trickRoom,
                                        focus: state.focus, speed: state.speed }) };
     });
@@ -325,31 +435,15 @@
     return r.p[key];
   }
 
-  function render() {
-    var trActive = state.trickRoom && state.speed;
-    document.documentElement.classList.toggle('tr', trActive);
-    $('model-sum').setAttribute('aria-pressed', state.model === 'sum');
-    $('model-bsr').setAttribute('aria-pressed', state.model === 'bsr');
-    ['full', 'bulk', 'offense'].forEach(function (f) {
-      $('focus-' + f).setAttribute('aria-pressed', state.focus === f);
-    });
-    $('count-speed').setAttribute('aria-pressed', state.speed);
-    $('trick-room').setAttribute('aria-pressed', trActive);
-    $('trick-room').disabled = !state.speed;
-    $('trick-room').title = state.speed ? '' : 'Turn Speed on to use Trick Room';
-    $('show-megas').checked = state.megas;
-    $('mixed-only').checked = state.mixedOnly;
-    $('score-head').textContent = SCORE_NAME[state.model][state.focus];
-    $('mode-note').innerHTML = modeNote(trActive);
-
-    var pickCount = Object.keys(state.picks).length;
-    $('reset-picks').hidden = pickCount === 0;
-    $('reset-picks').textContent = 'Reset offense picks (' + pickCount + ')';
-
+  // The rows the table shows, filtered and in display order (also what Export CSV writes).
+  function visibleRows() {
     var q = state.search.trim().toLowerCase();
     var rows = computeRows().filter(function (r) {
-      if (!state.megas && r.p.name.indexOf('-Mega') !== -1) return false;
+      var mega = r.p.name.indexOf('-Mega') !== -1;
+      if ((state.megas === 'exclude' && mega) || (state.megas === 'only' && !mega)) return false;
       if (state.mixedOnly && !r.mixed) return false;
+      if (state.type && r.p.types.indexOf(state.type) === -1) return false;
+      if (r.p.types.some(function (t) { return state.excludedTypes.indexOf(t) !== -1; })) return false;
       return !q || r.p.name.toLowerCase().indexOf(q) !== -1;
     });
     var sign = state.dir === 'asc' ? 1 : -1;
@@ -359,22 +453,72 @@
       if (x > y) return sign;
       return a.rank - b.rank;
     });
+    return rows;
+  }
+
+  function render() {
+    var trActive = state.trickRoom && state.speed;
+    var chosen = choices();
+    document.querySelectorAll('.panel .seg').forEach(function (seg) {
+      var group = seg.dataset.group;
+      seg.querySelectorAll('button').forEach(function (b) {
+        var on = b.dataset.value === chosen[group];
+        b.setAttribute('aria-checked', on);
+        b.tabIndex = on ? 0 : -1;
+      });
+      if (HINTS[group]) $('hint-' + group).textContent = HINTS[group][chosen[group]];
+    });
+    var mixedCount = model.pool.filter(isMixed).length;
+    if (document.activeElement !== $('mixed-threshold')) $('mixed-threshold').value = state.mixedMin;
+    $('hint-mixed').textContent = mixedCount + ' can pick phys / spec / both';
+    renderTypeFilter();
+    $('score-head').textContent = SCORE_NAME[state.model][state.focus];
+    // Show HP's weight in its column header when it's counted at 1.4x.
+    $('hp-head').textContent = state.model === 'sum' && state.focus !== 'offense' ? 'hp ×' + EBST.HP_WEIGHT : 'hp';
+    $('score-head').title = modeNote(trActive).replace(/<[^>]+>/g, '');
+
+    var pickCount = activePickCount();
+    $('reset-picks').hidden = Object.keys(state.picks).length === 0;
+    $('reset-picks').textContent = '· reset ' + pickCount + ' picks';
+    var rows = visibleRows();
 
     document.querySelectorAll('th[data-sort]').forEach(function (th) {
-      var active = th.dataset.sort === state.sort && th.querySelector('button');
+      var active = th.dataset.sort === state.sort;
       th.setAttribute('aria-sort', active ? (state.dir === 'asc' ? 'ascending' : 'descending') : 'none');
     });
 
+    $('shown-count').textContent = rows.length + ' shown';
+    $('footer-state').textContent = [
+      state.model === 'sum' ? 'effective sum' : 'bsr', state.focus,
+      !state.speed ? 'speed off' : trActive ? 'trick room' : 'speed on',
+      pickCount + ' offense picks', 'data reg m-c'
+    ].join(' · ');
     $('rows').innerHTML = rows.length ? rows.map(rowHtml).join('')
       : '<tr><td colspan="11" class="empty">No Pokémon match these filters.</td></tr>';
+  }
+
+  // Type cell: one "show only" type, plus any number of excluded types shown as removable chips.
+  function renderTypeFilter() {
+    var excluded = state.excludedTypes;
+    $('type-filter').value = state.type;
+    $('type-exclude').innerHTML = '<option value="">+ Exclude a type</option>' + TYPE_LIST.filter(function (t) {
+      return excluded.indexOf(t) === -1 && t !== state.type;
+    }).map(function (t) { return '<option value="' + t + '">' + t + '</option>'; }).join('');
+    $('excluded-types').innerHTML = excluded.map(function (t) {
+      return '<button type="button" class="chip" data-type="' + esc(t) + '" aria-label="Stop excluding ' + esc(t)
+        + '">' + esc(t) + '<span class="x" aria-hidden="true">×</span></button>';
+    }).join('');
+    var parts = [state.type ? state.type.toLowerCase() + ' as either type' : 'all types'];
+    if (excluded.length) parts.push(excluded.length + ' excluded');
+    $('hint-type').textContent = parts.join(' · ');
   }
 
   function modeNote(trActive) {
     var speedPart = !state.speed ? '' : trActive ? ', <b>minus Speed</b> (slower is better)' : ', plus Speed';
     if (state.model === 'sum') {
-      var base = { full: 'HP + Def + SpD + the attacking stat it uses', bulk: 'HP + Def + SpD only',
+      var base = { full: '1.4 × HP + Def + SpD + the attacking stat it uses', bulk: '1.4 × HP + Def + SpD only',
                    offense: 'the attacking stat it uses only' }[state.focus];
-      return '<b>Simple Sum:</b> ' + base + speedPart + '.';
+      return '<b>Effective Sum:</b> ' + base + speedPart + '.';
     }
     var bulk = 'bulk (HP × defenses)';
     var offense = state.speed
@@ -384,35 +528,36 @@
                  bulk: bulk + (state.speed ? ' plus how many Pokémon it moves before'
                    + (trActive ? ' <b>under Trick Room</b>' : '') : ' only'),
                  offense: offense }[state.focus];
-    return '<b>BSR:</b> ' + body + '. Rescaled to the Simple Sum range.';
+    return '<b>BSR:</b> ' + body + '. Rescaled to the Effective Sum range.';
   }
 
   function rowHtml(r) {
     var p = r.p, name = p.name, megaAt = name.indexOf('-Mega');
     var nameHtml = megaAt === -1 ? esc(name)
-      : esc(name.slice(0, megaAt) + name.slice(megaAt + 5)) + '<span class="mega">Mega</span>';
+      : esc(name.slice(0, megaAt) + name.slice(megaAt + 5)) + '<span class="tag">mega</span>';
     var bulkUsed = state.focus !== 'offense', offUsed = state.focus !== 'bulk';
     var atkUsed = offUsed && r.mode !== 'special', spaUsed = offUsed && r.mode !== 'physical';
     var cell = function (v, used) { return '<td class="stat' + (used ? '' : ' unused') + '">' + v + '</td>'; };
     var spe = !state.speed ? cell(p.spe, false)
       : state.trickRoom ? '<td class="stat neg">−' + p.spe + '</td>' : cell(p.spe, true);
     var offense = r.mixed
-      ? '<span class="off' + (offUsed ? '' : ' off-idle') + '" role="group" aria-label="Offense for ' + esc(name) + '">'
+      ? '<span class="seg off' + (offUsed ? '' : ' off-idle') + '" role="radiogroup" aria-label="Offense for '
+        + esc(name) + '">'
         + ['physical', 'special', 'both'].map(function (m) {
-          return '<button type="button" data-name="' + esc(name) + '" data-mode="' + m + '" aria-pressed="'
-            + (r.mode === m) + '">' + LABEL[m] + '</button>';
+          return '<button type="button" role="radio" data-name="' + esc(name) + '" data-mode="' + m
+            + '" aria-checked="' + (r.mode === m) + '">' + LABEL[m] + '</button>';
         }).join('') + '</span>'
       : '<span class="off-fixed' + (offUsed ? '' : ' off-idle') + '">' + LABEL[r.mode] + '</span>';
     return '<tr>'
-      + '<td class="rank">' + r.rank + '</td>'
-      + '<td class="l name">' + nameHtml + '</td>'
-      + cell(p.hp, bulkUsed).replace('class="stat', 'class="stat stat-sep')
+      + '<td class="l rank">' + r.rank + '</td>'
+      + '<td class="l name" title="' + esc(p.types.join(' / ')) + '">' + nameHtml + '</td>'
+      + cell(p.hp, bulkUsed)
       + cell(p.atk, atkUsed)
       + cell(p.def, bulkUsed)
       + cell(p.spa, spaUsed)
       + cell(p.spd, bulkUsed)
       + spe
-      + '<td class="l stat-sep">' + offense + '</td>'
+      + '<td class="l">' + offense + '</td>'
       + '<td class="bst">' + r.bst + '</td>'
       + '<td class="l score"><div class="score-cell"><div class="score-bar"><i style="width:'
       + (r.fill * 100).toFixed(1) + '%"></i></div><span class="score-num">' + r.score + '</span></div></td>'
@@ -425,16 +570,29 @@
     render();
   }
 
-  $('model-sum').addEventListener('click', function () { update({ model: 'sum' }); });
-  $('model-bsr').addEventListener('click', function () { update({ model: 'bsr' }); });
-  ['full', 'bulk', 'offense'].forEach(function (f) {
-    $('focus-' + f).addEventListener('click', function () { update({ focus: f }); });
+  var panel = document.querySelector('.panel');
+  panel.addEventListener('click', function (e) {
+    var b = e.target.closest('.seg button');
+    if (b) update(CHOOSE[b.closest('.seg').dataset.group](b.dataset.value));
   });
-  $('count-speed').addEventListener('click', function () { update({ speed: !state.speed }); });
-  $('trick-room').addEventListener('click', function () { update({ trickRoom: !state.trickRoom }); });
-  $('show-megas').addEventListener('change', function (e) { update({ megas: e.target.checked }); });
-  $('mixed-only').addEventListener('change', function (e) { update({ mixedOnly: e.target.checked }); });
+  // Radio-group keys: arrows move the choice within a control.
+  function arrowKeys(e) {
+    var step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    var b = e.target.closest('.seg button');
+    if (!step || !b) return;
+    e.preventDefault();
+    var opts = Array.prototype.slice.call(b.parentNode.children);
+    var next = opts[(opts.indexOf(b) + step + opts.length) % opts.length];
+    next.click();
+    next.focus();
+  }
+  panel.addEventListener('keydown', arrowKeys);
   $('search').addEventListener('input', function (e) { update({ search: e.target.value }); });
+  $('mixed-threshold').addEventListener('input', function (e) {
+    var v = parseInt(e.target.value, 10);
+    if (v >= 0 && v <= 255) update({ mixedMin: v });
+  });
+  $('mixed-threshold').addEventListener('change', function (e) { e.target.value = state.mixedMin; });
   $('reset-picks').addEventListener('click', function () { update({ picks: {} }); });
 
   document.querySelector('thead').addEventListener('click', function (e) {
@@ -455,6 +613,98 @@
     update({ picks: picks });
   });
 
-  $('pool-count').textContent = model.pool.length;
+  // Type filter: every type in the pool, alphabetical.
+  var allTypes = {};
+  model.pool.forEach(function (p) { p.types.forEach(function (t) { allTypes[t] = true; }); });
+  var TYPE_LIST = Object.keys(allTypes).sort();
+  state.excludedTypes = state.excludedTypes.filter(function (t) { return allTypes[t]; });
+  TYPE_LIST.forEach(function (t) {
+    var opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = t;
+    $('type-filter').appendChild(opt);
+  });
+  // Choosing a type to show un-excludes it, so the two can't contradict each other.
+  $('type-filter').addEventListener('change', function (e) {
+    var t = e.target.value;
+    update({ type: t, excludedTypes: state.excludedTypes.filter(function (x) { return x !== t; }) });
+  });
+  $('type-exclude').addEventListener('change', function (e) {
+    if (e.target.value) update({ excludedTypes: state.excludedTypes.concat(e.target.value) });
+  });
+  $('excluded-types').addEventListener('click', function (e) {
+    var chip = e.target.closest('.chip');
+    if (!chip) return;
+    update({ excludedTypes: state.excludedTypes.filter(function (t) { return t !== chip.dataset.type; }) });
+    $('type-exclude').focus();
+  });
+
+  // --- Export CSV: the visible rows, in display order ---
+  var CSV_SCORE_NAME = {
+    sum: { full: 'Effective BST', bulk: 'Effective Bulk', offense: 'Effective Offense' },
+    bsr: { full: 'BSR', bulk: 'BSR Bulk', offense: 'BSR Offense' }
+  };
+
+  function csvField(v) {
+    var s = String(v);
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  function buildCsv() {
+    var header = ['Rank', 'Pokemon', 'Type 1', 'Type 2', 'HP', 'Atk', 'Def', 'SpA', 'SpD', 'Spe',
+                  'Offense', 'BST', CSV_SCORE_NAME[state.model][state.focus]];
+    var lines = visibleRows().map(function (r) {
+      var p = r.p;
+      return [r.rank, p.name, p.types[0], p.types[1] || '', p.hp, p.atk, p.def, p.spa, p.spd, p.spe,
+              LABEL[r.mode], r.bst, r.score].map(csvField).join(',');
+    });
+    return [header.join(',')].concat(lines).join('\n') + '\n';
+  }
+
+  function csvFilename() {
+    var c = choices();
+    return ['effective-bst', c.model, c.focus, c.speed === 'tr' ? 'trick-room' : 'speed-' + c.speed]
+      .concat(state.type ? [state.type.toLowerCase()] : [])
+      .concat(state.excludedTypes.length ? ['no-' + state.excludedTypes.join('-').toLowerCase()] : [])
+      .join('_') + '.csv';
+  }
+
+  function flash(btn, text) {
+    btn.textContent = text;
+    setTimeout(function () { btn.textContent = 'Export CSV'; }, 1600);
+  }
+
+  // Outside the claude.ai viewer (e.g. serve.py) there is no window.claude: download directly.
+  var inViewer = !!(window.claude && typeof window.claude.use === 'function');
+  var downloadsReady = inViewer ? window.claude.use('downloads') : Promise.resolve(null);
+
+  function copyCsv(btn, csv) {
+    if (!navigator.clipboard) return flash(btn, 'Export unavailable');
+    navigator.clipboard.writeText(csv).then(function () { flash(btn, 'CSV copied'); },
+                                            function () { flash(btn, 'Export unavailable'); });
+  }
+
+  $('export-csv').addEventListener('click', function () {
+    var btn = this, csv = buildCsv(), filename = csvFilename();
+    if (!inViewer) {
+      var url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      return flash(btn, 'Downloaded');
+    }
+    downloadsReady.then(function (downloads) {
+      // No save support in this view: put the CSV on the clipboard instead.
+      if (!downloads) return copyCsv(btn, csv);
+      downloads.save({ filename: filename, data: csv }).then(function () { flash(btn, 'Saved'); }, function (err) {
+        if (err && err.code === 'declined') return;
+        if (err && err.code === 'rate_limited') return flash(btn, 'Try again shortly');
+        copyCsv(btn, csv);
+      });
+    });
+  });
+
   render();
 </script>

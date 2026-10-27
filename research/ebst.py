@@ -1,10 +1,11 @@
-"""Prototype Effective BST calculations (simple sum and BSR-style) for VGC Reg M-C.
+"""Prototype Effective BST calculations (Effective Sum and BSR-style) for VGC Reg M-C.
 
 Usage: python3 ebst.py pokemon.json
 """
 import json, statistics, sys
 
-MIXED_RATIO = 0.75  # lower attacking stat >= 75% of higher -> user may pick physical/special/both
+MIXED_MIN = 80      # lower attacking base stat >= 80 -> user may pick physical/special/both
+HP_WEIGHT = 1.4     # Effective Sum counts HP 1.4x (see FORMULA.md section G)
 BOTH_WEIGHT = 1.5   # BSR: weight per sweepiness term when counting both (single mode uses 2)
 
 
@@ -25,7 +26,7 @@ def default_offense(p):
 
 
 def is_mixed(p):
-    return min(p['atk'], p['spa']) >= MIXED_RATIO * max(p['atk'], p['spa'])
+    return min(p['atk'], p['spa']) >= MIXED_MIN
 
 
 def offense_stat(p, mode):
@@ -34,7 +35,7 @@ def offense_stat(p, mode):
 
 def ebst(p, mode, trick_room):
     speed = -p['spe'] if trick_room else p['spe']
-    return p['hp'] + p['def'] + p['spd'] + offense_stat(p, mode) + speed
+    return round(HP_WEIGHT * p['hp'] + p['def'] + p['spd'] + offense_stat(p, mode) + speed)
 
 
 # --- BSR-style model (Smogon BSR v3/4.0 structure, X-Act / Rising_Dusk) ---

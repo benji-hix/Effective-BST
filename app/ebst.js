@@ -1,6 +1,9 @@
 // Effective BST calculations: a port of research/ebst.py. See FORMULA.md for the spec.
 (function (root) {
-  var MIXED_RATIO = 0.75; // lower attacking stat >= 75% of higher -> physical/special/both is selectable
+  var MIXED_MIN = 80;     // default: lower attacking base stat >= 80 -> physical/special/both is selectable
+  // Effective Sum counts HP 1.4x: one HP point adds about 1.4x the bulk (HP*Def + HP*SpD) of a
+  // Def or SpD point (pool mean of (Def+SpD+40)/(HP+75) at level 50). See FORMULA.md section G.
+  var HP_WEIGHT = 1.4;
   var BOTH_WEIGHT = 1.5;  // BSR: weight per sweepiness term when counting both (single mode uses 2)
   var STATS = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
@@ -23,8 +26,8 @@
     return p.atk >= p.spa ? 'physical' : 'special';
   }
 
-  function isMixed(p) {
-    return Math.min(p.atk, p.spa) >= MIXED_RATIO * Math.max(p.atk, p.spa);
+  function isMixed(p, min) {
+    return Math.min(p.atk, p.spa) >= (min === undefined ? MIXED_MIN : min);
   }
 
   function offenseStat(p, mode) {
@@ -34,10 +37,10 @@
   // focus: 'full' | 'bulk' (HP + Def + SpD) | 'offense' (attacking stat); speed: whether Spe counts.
   function ebst(p, mode, trickRoom, focus, speed) {
     var spe = speed === false ? 0 : trickRoom ? -p.spe : p.spe;
-    var bulk = p.hp + p.def + p.spd, offense = offenseStat(p, mode);
-    if (focus === 'bulk') return bulk + spe;
+    var bulk = HP_WEIGHT * p.hp + p.def + p.spd, offense = offenseStat(p, mode);
+    if (focus === 'bulk') return Math.round(bulk + spe);
     if (focus === 'offense') return offense + spe;
-    return bulk + offense + spe;
+    return Math.round(bulk + offense + spe);
   }
 
   // --- BSR-style model (Smogon BSR v3/4.0 structure, X-Act / Rising_Dusk) ---
@@ -141,7 +144,7 @@
   }
 
   // Bump together with the ?v= on the script tags in index.html whenever this file changes.
-  var api = { VERSION: 2, MIXED_RATIO: MIXED_RATIO, STATS: STATS, bst: bst, defaultOffense: defaultOffense,
+  var api = { VERSION: 6, MIXED_MIN: MIXED_MIN, HP_WEIGHT: HP_WEIGHT, STATS: STATS, bst: bst, defaultOffense: defaultOffense,
               isMixed: isMixed, offenseStat: offenseStat, buildModel: buildModel };
   if (typeof module !== 'undefined') module.exports = api;
   else root.EBST = api;
