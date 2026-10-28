@@ -90,4 +90,30 @@ Bulk follows the damage formula: hits survived ∝ HP × Def against physical at
 - Ranking agreement between the Sum's bulk and the true `HP·Def + HP·SpD` (rank correlation): 0.988 unweighted, about 0.997 at 1.4×, 0.980 at 2×.
 - A fixed weight can't reward balance (100 HP / 100 Def survives more than 160 HP / 40 Def). The BSR model covers that.
 
+## H | Speed Tiers tab (added 2026-10-28)
+
+A second tab, implemented in [app/speed.js](app/speed.js). It lists actual level-50 Speed instead of base stats, because the question it answers is "what number do I need to hit?"
+
+**Pool (340 entries).** Every form a player can bring, once. It drops cosmetic duplicates (same species, types and stats: Squawkabilly colors, Toxtricity-Low-Key, Meowstic-F-Mega) and the battle-only forms Castform-Sunny/Rainy/Snowy and Aegislash-Blade. Unlike the Effective BST pool, it keeps forms that share stats but not types (Rotom appliances, Paldean Tauros breeds), since each is its own threat.
+
+**Speed.** From Showdown `data/mods/champions/scripts.ts` (all IVs 31, up to 32 Stat Points per stat):
+```
+stat  = base + 20 + SP                       (0 ≤ SP ≤ 32)
++Spe  = floor(stat · 1.1),  −Spe = floor(stat · 0.9)
+```
+In-battle changes follow Showdown's `getStat` order. A stat stage applies first (+1: `floor(s · 1.5)`, −1: `floor(s / 1.5)`). Then Choice Scarf (×1.5) and Tailwind (×2), as 4096ths rounded half down: `floor((s · mod + 2047) / 4096)`.
+
+**Columns.** `max+` = 32 SP, +Spe · `max` = 32 SP, neutral · `0 sp` = 0 SP, neutral · `min−` = 0 SP, −Spe · `scarf+` / `scarf` = `max+` / `max` holding Choice Scarf. Every column sorts.
+
+**What speed do I need.** Pick the Pokémon you're training, its nature and SP, and an optional boost on your side. The app lists the chosen spreads of every threat, fastest first, with your own line placed among them.
+- Outspeed: you need `their speed + 1`. "How" is the fewest SP that gets there, with +Spe and with a neutral nature.
+- Trick Room: you need `their speed − 1` or lower. "How" is the most SP you can keep, with −Spe and with neutral.
+- Only spreads within your reachable range (0 SP −Spe up to 32 SP +Spe, after your boost) are listed. Your spread can't change the result against the others, so those collapse into "above your max" and "below your min".
+
+**Meta threats.** A starter set of 33, editable per viewer with ★ (stored in the browser). It has two sources:
+- The 30 Pokémon that Showdown bans from `[Gen 9 Champions] 4v4 Doubles UU` for reaching 4.52% usage on the Reg M-B ladder (`config/formats.ts`).
+- Reg M-C's high-usage newcomers Rillaboom, Salamence-Mega and Golisopod-Mega (Poketools, Sep 2026 Reg M-C ladder).
+
+Replace the set with Pikalytics' Reg M-C usage once pikalytics.com is reachable from the build environment.
+
 The app ([app/](app/index.html)) implements this spec in [app/ebst.js](app/ebst.js), which matches the Python prototype on all 336 entries.

@@ -183,6 +183,55 @@
   .score-num { font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--fg-strong); min-width: 2.6em; }
   td.empty { text-align: center; color: var(--fg-muted); padding: 32px 26px; font-size: 14px; }
 
+  /* Tabs: one per view; the open one carries an oxblood underline. */
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-top: 10px; }
+  .tabs button {
+    all: unset; cursor: pointer; font-family: var(--mono); font-size: 12px; text-transform: lowercase;
+    letter-spacing: 0.08em; color: var(--fg-secondary); padding-bottom: 4px; border-bottom: 1px solid transparent;
+    transition: color 180ms var(--ease), border-color 180ms var(--ease);
+  }
+  .tabs button:hover { color: var(--fg-strong); }
+  .tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .tabs button[aria-selected="true"] { color: var(--fg-strong); border-bottom-color: var(--accent); }
+  .view { display: flex; flex-direction: column; }
+  .view[hidden], section[hidden] { display: none; }
+
+  /* Speed Tiers */
+  .control input[type="text"] {
+    font: 14px var(--sans); color: var(--fg); background: var(--surface); width: 100%; max-width: 15em;
+    border: 0.5px solid var(--rule); border-radius: 0; padding: 5px 8px;
+  }
+  .control input[type="text"]::placeholder { color: var(--fg-muted); }
+  .chip.toggle { color: var(--fg-secondary); }
+  .chip.toggle[aria-pressed="true"] { color: var(--fg-strong); border-color: var(--accent); }
+  .toolbar .seg-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  #view-speed .toolbar-end { flex-wrap: wrap; }
+  .star, .train { all: unset; cursor: pointer; transition: color 180ms var(--ease); }
+  .star { font-size: 14px; color: var(--fg-muted); padding: 0 2px; }
+  .star[aria-pressed="true"] { color: var(--accent); }
+  .star:hover, .train:hover { color: var(--fg-strong); }
+  .star:focus-visible, .train:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  td.name .star { margin-right: 8px; }
+  td.stat.sorted { color: var(--fg-strong); }
+  table.needs { min-width: 640px; }
+  td.spd-num { font-family: var(--mono); font-size: 15px; font-weight: 500; color: var(--fg-strong); width: 3.4em; }
+  td.spread { font-family: var(--mono); font-size: 12px; color: var(--fg-secondary); }
+  td.need { font-family: var(--mono); font-size: 14px; color: var(--fg); }
+  td.how { font-family: var(--mono); font-size: 12px; color: var(--fg-secondary); }
+  .how-part + .how-part::before { content: " · "; color: var(--fg-muted); }
+  .muted { color: var(--fg-muted); }
+  td.vs { font-size: 13px; }
+  tr.first td.vs { color: var(--fg); }
+  tr.tie td.vs { color: var(--accent); }
+  tr.second td.vs { color: var(--fg-muted); }
+  tr.you td { color: var(--fg-strong); padding-block: 14px; }
+  tr.you td.spd-num { color: var(--accent); }
+  tr.fold td, tr.fold .textbtn { text-align: left; }
+  tr.fold td { padding-block: 10px; white-space: normal; }
+  .nowrap { white-space: nowrap; }
+  .spread-inline, .how-inline { display: none; font-family: var(--mono); font-size: 11px; color: var(--fg-secondary); }
+  td.star-col { width: 2em; }
+
   /* Footer */
   footer { margin-top: 24px; padding-block: 22px 56px; color: var(--fg-faint); font-size: 13px; }
   footer .inner { padding-top: 20px; border-top: 0.5px solid var(--rule); }
@@ -208,6 +257,17 @@
     .score-cell { grid-template-columns: auto; }
     .score-bar { display: none; }
   }
+  /* Narrow speed list: the spread moves under the name and "how" under "you need". The list's own
+     order shows who moves first, so that column goes. */
+  @media (max-width: 800px) {
+    table.needs { min-width: 0; }
+    table.needs .vs, table.needs .spread-col, table.needs .how-col, table.needs td.name .star { display: none; }
+    table.needs th, table.needs td.name { white-space: normal; }
+    td.spd-num { width: auto; }
+    .spread-inline, .how-inline { display: block; }
+    .how-part { display: block; }
+    .how-part + .how-part::before { content: none; }
+  }
   @media (max-width: 640px) {
     .gutter {
       padding-left: max(22px, env(safe-area-inset-left, 0px));
@@ -221,12 +281,17 @@
 
 <header class="gutter">
   <div class="inner">
-    <p class="kicker">effective bst · vgc 2026 reg m-c · pokémon champions</p>
-    <h1>Effective BST</h1>
+    <p class="kicker">vgc 2026 reg m-c · pokémon champions</p>
+    <h1 id="page-title">Effective BST</h1>
+    <div class="tabs" role="tablist" aria-label="Views">
+      <button type="button" role="tab" id="tab-ebst" data-view="ebst" aria-controls="view-ebst">effective bst</button>
+      <button type="button" role="tab" id="tab-speed" data-view="speed" aria-controls="view-speed">speed tiers</button>
+    </div>
   </div>
 </header>
 
 <main class="gutter">
+  <div class="view" id="view-ebst" role="tabpanel" aria-labelledby="tab-ebst">
   <section aria-label="Settings">
     <div class="panel">
     <div class="panel-row" role="group" aria-label="Scoring">
@@ -328,10 +393,136 @@
       </div>
     </div>
   </section>
+  </div>
+
+  <div class="view" id="view-speed" role="tabpanel" aria-labelledby="tab-speed" hidden>
+  <section aria-label="Speed you need" id="speed-panel">
+    <div class="panel">
+    <div class="panel-row" role="group" aria-label="Your Pokémon">
+    <span class="row-label">train</span>
+    <div class="control">
+      <label class="slabel" for="calc-name">pokémon</label>
+      <input type="text" id="calc-name" list="speed-names" placeholder="e.g. Garchomp" autocomplete="off" spellcheck="false">
+      <datalist id="speed-names"></datalist>
+      <span class="hint" id="hint-calc-name"></span>
+    </div>
+    <div class="control">
+      <span class="slabel" id="label-nature">spread</span>
+      <div class="control-line">
+        <div class="seg" role="radiogroup" aria-labelledby="label-nature" data-group="nature">
+          <button type="button" role="radio" data-value="1">+Spe</button>
+          <button type="button" role="radio" data-value="0">Neutral</button>
+          <button type="button" role="radio" data-value="-1">−Spe</button>
+        </div>
+        <label for="calc-sp"><input type="number" id="calc-sp" min="0" max="32" step="1" inputmode="numeric"> sp</label>
+      </div>
+      <span class="hint" id="hint-spread"></span>
+    </div>
+    <div class="control">
+      <label class="slabel" for="calc-boost">in battle</label>
+      <select id="calc-boost">
+        <option value="none">No boost</option>
+        <option value="scarf">Choice Scarf ×1.5</option>
+        <option value="tailwind">Tailwind ×2</option>
+        <option value="plus1">+1 Speed ×1.5</option>
+        <option value="minus1">−1 Speed ×⅔</option>
+      </select>
+      <span class="hint">your side only · their spreads stay unboosted</span>
+    </div>
+    </div>
+    <div class="panel-row" role="group" aria-label="Threats">
+    <span class="row-label">against</span>
+    <div class="control">
+      <span class="slabel" id="label-goal">goal</span>
+      <div class="seg" role="radiogroup" aria-labelledby="label-goal" data-group="goal">
+        <button type="button" role="radio" data-value="out">Outspeed</button>
+        <button type="button" role="radio" data-value="tr">Trick Room</button>
+      </div>
+      <span class="hint" id="hint-goal"></span>
+    </div>
+    <div class="control">
+      <span class="slabel" id="label-benches">their spreads</span>
+      <div class="chips" role="group" aria-labelledby="label-benches" id="bench-chips"></div>
+      <span class="hint">+ / − = speed nature · max = 32 sp</span>
+    </div>
+    <div class="control">
+      <span class="slabel" id="label-threats">threats</span>
+      <div class="seg" role="radiogroup" aria-labelledby="label-threats" data-group="threats">
+        <button type="button" role="radio" data-value="meta">★ Meta</button>
+        <button type="button" role="radio" data-value="all">All</button>
+      </div>
+      <span class="hint"><span id="hint-threats"></span> <button type="button" class="textbtn" id="reset-threats" hidden>· reset ★</button></span>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <section aria-label="Speeds to hit" id="needs-section" hidden>
+    <p class="sub" id="needs-summary"></p>
+    <div class="list">
+      <div class="table-scroll">
+        <table class="needs">
+          <thead>
+            <tr>
+              <th>speed</th>
+              <th class="l name">pokémon</th>
+              <th class="l spread-col">spread</th>
+              <th title="Your in-battle Speed, after the boost picked above">you need</th>
+              <th class="l how-col">how</th>
+              <th class="l vs">vs you</th>
+            </tr>
+          </thead>
+          <tbody id="needs-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Speed tiers">
+    <div class="toolbar">
+      <input type="search" id="speed-search" placeholder="Search Pokémon" aria-label="Search Pokémon" autocomplete="off">
+      <div class="toolbar-end">
+        <div class="seg-group">
+          <div class="seg" role="radiogroup" aria-label="Which Pokémon" data-group="tierSet">
+            <button type="button" role="radio" data-value="all">All</button>
+            <button type="button" role="radio" data-value="meta">★ Meta</button>
+          </div>
+          <div class="seg" role="radiogroup" aria-label="Megas" data-group="megas">
+            <button type="button" role="radio" data-value="include">Megas</button>
+            <button type="button" role="radio" data-value="exclude">No megas</button>
+            <button type="button" role="radio" data-value="only">Only</button>
+          </div>
+        </div>
+        <span class="count" id="speed-count"></span>
+      </div>
+    </div>
+    <div class="list">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="l" data-sort="star"><button type="button" aria-label="Sort by meta threats">★</button></th>
+              <th class="l">#</th>
+              <th class="l name" data-sort="name"><button type="button">pokémon</button></th>
+              <th data-sort="base"><button type="button">base</button></th>
+              <th data-sort="maxplus" title="32 SP, +Spe nature"><button type="button">max+</button></th>
+              <th data-sort="max" title="32 SP, neutral nature"><button type="button">max</button></th>
+              <th data-sort="zero" title="0 SP, neutral nature"><button type="button">0 sp</button></th>
+              <th data-sort="minminus" title="0 SP, −Spe nature"><button type="button">min−</button></th>
+              <th data-sort="scarfplus" title="max+ holding Choice Scarf"><button type="button">scarf+</button></th>
+              <th data-sort="scarf" title="max holding Choice Scarf"><button type="button">scarf</button></th>
+            </tr>
+          </thead>
+          <tbody id="speed-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  </div>
 </main>
 
 <footer class="gutter">
-  <div class="inner"><span id="footer-state"></span></div>
+  <div class="inner"><span id="footer-state"></span><span id="footer-speed" hidden></span></div>
   <div class="endmark" aria-hidden="true">
     <svg viewBox="0 0 55 44" width="26" height="21"><path d="M4,22 H14 C18,22 18,6 23,6 C28,6 28,32.7 33,32.7 C37,32.7 37,22 41,22 H51" fill="none" stroke="var(--fg-secondary)" stroke-width="2.75" stroke-linecap="round"/></svg>
   </div>
@@ -340,6 +531,7 @@
 <!-- The ?v= forces browsers to fetch fresh copies; keep it equal to EBST.VERSION. -->
 <script src="pokemon-data.js?v=6"></script>
 <script src="ebst.js?v=6"></script>
+<script src="speed.js?v=1"></script>
 <script>
   var EBST_VERSION = 6;
   if (EBST.VERSION !== EBST_VERSION) {
@@ -459,7 +651,7 @@
   function render() {
     var trActive = state.trickRoom && state.speed;
     var chosen = choices();
-    document.querySelectorAll('.panel .seg').forEach(function (seg) {
+    document.querySelectorAll('#view-ebst .panel .seg').forEach(function (seg) {
       var group = seg.dataset.group;
       seg.querySelectorAll('button').forEach(function (b) {
         var on = b.dataset.value === chosen[group];
@@ -482,7 +674,7 @@
     $('reset-picks').textContent = '· reset ' + pickCount + ' picks';
     var rows = visibleRows();
 
-    document.querySelectorAll('th[data-sort]').forEach(function (th) {
+    document.querySelectorAll('#view-ebst th[data-sort]').forEach(function (th) {
       var active = th.dataset.sort === state.sort;
       th.setAttribute('aria-sort', active ? (state.dir === 'asc' ? 'ascending' : 'descending') : 'none');
     });
@@ -570,7 +762,7 @@
     render();
   }
 
-  var panel = document.querySelector('.panel');
+  var panel = document.querySelector('#view-ebst .panel');
   panel.addEventListener('click', function (e) {
     var b = e.target.closest('.seg button');
     if (b) update(CHOOSE[b.closest('.seg').dataset.group](b.dataset.value));
@@ -595,7 +787,7 @@
   $('mixed-threshold').addEventListener('change', function (e) { e.target.value = state.mixedMin; });
   $('reset-picks').addEventListener('click', function () { update({ picks: {} }); });
 
-  document.querySelector('thead').addEventListener('click', function (e) {
+  document.querySelector('#view-ebst thead').addEventListener('click', function (e) {
     var th = e.target.closest('th[data-sort]');
     if (!th || !e.target.closest('button')) return;
     var key = th.dataset.sort;
@@ -707,4 +899,375 @@
   });
 
   render();
+</script>
+<script>
+  // Tabs and the Speed Tiers view. Self-contained, so the tabs still work if the script above stops early.
+  (function () {
+    var $ = function (id) { return document.getElementById(id); };
+    var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); };
+    var STORE_KEY = 'effective-bst-speed-v1';
+    var TITLES = { ebst: 'Effective BST', speed: 'Speed Tiers' };
+    var DEFAULT_BENCHES = { out: ['maxplus', 'max'], tr: ['minminus', 'zero'] };
+    var SAVED_KEYS = ['tab', 'name', 'nature', 'sp', 'boost', 'goal', 'benches', 'threatsMode', 'threats',
+                      'sort', 'dir', 'megas', 'tierSet'];
+    var state = { tab: 'ebst', name: '', nature: 1, sp: 32, boost: 'none', goal: 'out',
+                  benches: { out: DEFAULT_BENCHES.out.slice(), tr: DEFAULT_BENCHES.tr.slice() },
+                  threatsMode: 'meta', threats: null, sort: 'maxplus', dir: 'desc', megas: 'include', tierSet: 'all',
+                  search: '', showAbove: false, showBelow: false };
+
+    try {
+      var saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+      if (saved) SAVED_KEYS.forEach(function (k) {
+        if (k in saved) state[k] = saved[k];
+      });
+    } catch (e) {}
+    if (location.hash === '#speed' || location.hash === '#ebst') state.tab = location.hash.slice(1);
+
+    function save() {
+      try {
+        var out = {};
+        SAVED_KEYS.forEach(function (k) { out[k] = state[k]; });
+        localStorage.setItem(STORE_KEY, JSON.stringify(out));
+      } catch (e) {}
+    }
+
+    // --- Tabs ---
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]'));
+
+    function showTab() {
+      tabs.forEach(function (t) {
+        var on = t.dataset.view === state.tab;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        $('view-' + t.dataset.view).hidden = !on;
+      });
+      $('footer-state').hidden = state.tab !== 'ebst';
+      $('footer-speed').hidden = state.tab !== 'speed';
+      $('page-title').textContent = TITLES[state.tab];
+      document.title = TITLES[state.tab];
+    }
+
+    document.querySelector('.tabs').addEventListener('click', function (e) {
+      var t = e.target.closest('[role="tab"]');
+      if (!t) return;
+      state.tab = t.dataset.view;
+      save();
+      showTab();
+    });
+    document.querySelector('.tabs').addEventListener('keydown', function (e) {
+      var step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      var next = tabs[(tabs.indexOf(e.target) + step + tabs.length) % tabs.length];
+      next.click();
+      next.focus();
+    });
+    if (!TITLES[state.tab]) state.tab = 'ebst';
+    showTab();
+
+    var view = $('view-speed');
+    var SPEED_VERSION = 1;
+    if (SPEED.VERSION !== SPEED_VERSION) {
+      view.innerHTML = '<p class="sub"><b>An outdated copy of the speed code loaded, so speeds would be wrong.</b>'
+        + ' Reload the page while holding Shift to fetch the current version.</p>';
+      throw new Error('speed.js version ' + SPEED.VERSION + ' loaded; page expects ' + SPEED_VERSION);
+    }
+
+    var pool = SPEED.pool(POKEMON);
+    var byName = {};
+    pool.forEach(function (p) { byName[p.name.toLowerCase()] = p; });
+    var BENCH = {};
+    SPEED.BENCHMARKS.forEach(function (b) { BENCH[b.key] = b; });
+    var TIER_KEYS = SPEED.BENCHMARKS.map(function (b) { return b.key; });
+    var NATURE = { '1': '+Spe', '0': 'neutral', '-1': '−Spe' };
+    var HINTS = { goal: { out: 'faster moves first', tr: 'slower moves first' } };
+    var BOOST_NAME = { scarf: 'Choice Scarf', tailwind: 'Tailwind', plus1: '+1 Speed', minus1: '−1 Speed' };
+    var CHOOSE = {
+      nature: function (v) { return { nature: Number(v) }; },
+      goal: function (v) { return { goal: v, showAbove: false, showBelow: false }; },
+      threats: function (v) { return { threatsMode: v }; },
+      tierSet: function (v) { return { tierSet: v }; },
+      megas: function (v) { return { megas: v }; }
+    };
+
+    // Saved values from an older or hand-edited store fall back to the defaults.
+    if (!(state.sp >= 0 && state.sp <= SPEED.MAX_SP)) state.sp = SPEED.MAX_SP;
+    if (!NATURE[state.nature]) state.nature = 1;
+    if (!SPEED.BOOSTS[state.boost]) state.boost = 'none';
+    if (!DEFAULT_BENCHES[state.goal]) state.goal = 'out';
+    ['out', 'tr'].forEach(function (g) {
+      var keys = state.benches && Array.isArray(state.benches[g]) ? state.benches[g].filter(function (k) { return BENCH[k]; }) : [];
+      if (!state.benches || typeof state.benches !== 'object') state.benches = {};
+      state.benches[g] = keys.length ? keys : DEFAULT_BENCHES[g].slice();
+    });
+    if (!Array.isArray(state.threats)) state.threats = null;
+
+    function chosen() {
+      return { nature: String(state.nature), goal: state.goal, threats: state.threatsMode,
+               tierSet: state.tierSet, megas: state.megas };
+    }
+
+    // The meta threat set: the starter list until a viewer stars or unstars something.
+    function threatNames() {
+      return state.threats || SPEED.STARTER_THREATS;
+    }
+
+    function isThreat(p) {
+      return threatNames().indexOf(p.name) !== -1;
+    }
+
+    function toggleThreat(name) {
+      var list = threatNames().slice(), i = list.indexOf(name);
+      if (i === -1) list.push(name);
+      else list.splice(i, 1);
+      var starter = SPEED.STARTER_THREATS;
+      var same = list.length === starter.length && starter.every(function (n) { return list.indexOf(n) !== -1; });
+      update({ threats: same ? null : list.sort() });
+    }
+
+    // Like the rankings table, plus a nowrap span so a wrapping cell never splits a name at its hyphen.
+    function nameHtml(name) {
+      var megaAt = name.indexOf('-Mega');
+      var text = megaAt === -1 ? name : name.slice(0, megaAt) + name.slice(megaAt + 5);
+      return '<span class="nowrap">' + esc(text) + '</span>' + (megaAt === -1 ? '' : '<span class="tag">mega</span>');
+    }
+
+    function starHtml(p) {
+      var on = isThreat(p);
+      return '<button type="button" class="star" data-name="' + esc(p.name) + '" aria-pressed="' + on + '" aria-label="'
+        + (on ? 'Remove ' + esc(p.name) + ' from' : 'Add ' + esc(p.name) + ' to') + ' meta threats">'
+        + (on ? '★' : '☆') + '</button>';
+    }
+
+    function currentPokemon() {
+      return byName[state.name.trim().toLowerCase()] || null;
+    }
+
+    // --- What speed do I need: the chosen threat spreads, fastest first, against your Pokémon ---
+    function renderNeeds() {
+      var p = currentPokemon(), tr = state.goal === 'tr', keys = state.benches[state.goal];
+      var q = state.name.trim().toLowerCase();
+      var partial = q && pool.some(function (x) { return x.name.toLowerCase().indexOf(q) !== -1; });
+      $('hint-calc-name').textContent = p ? p.types.join(' / ').toLowerCase() + ' · base ' + p.spe
+        : !q ? 'type or pick a name' : partial ? 'pick a form from the list' : 'not legal in reg m-c';
+      $('bench-chips').innerHTML = SPEED.BENCHMARKS.map(function (b) {
+        return '<button type="button" class="chip toggle" data-bench="' + b.key + '" aria-pressed="'
+          + (keys.indexOf(b.key) !== -1) + '" title="' + esc(b.note) + '">' + b.label + '</button>';
+      }).join('');
+      var count = threatNames().length;
+      $('hint-threats').textContent = state.threatsMode === 'meta' ? count + ' starred · ☆ to edit' : 'all ' + pool.length;
+      $('reset-threats').hidden = !state.threats;
+      $('needs-section').hidden = !p;
+      if (!p) {
+        $('hint-spread').textContent = 'speed at level 50';
+        $('footer-speed').textContent = ['speed tiers', 'no pokémon picked', count + ' meta threats', 'data reg m-c'].join(' · ');
+        return;
+      }
+
+      var boost = state.boost;
+      var raw = SPEED.stat(p.spe, state.sp, state.nature), mine = SPEED.modify(raw, boost);
+      var lo = SPEED.speed(p.spe, 0, -1, boost), hi = SPEED.speed(p.spe, SPEED.MAX_SP, 1, boost);
+      $('hint-spread').textContent = 'speed ' + raw + (boost === 'none' ? '' : ' → ' + mine + ' in battle');
+
+      var threats = state.threatsMode === 'all' ? pool : pool.filter(isThreat);
+      var list = SPEED.benchmarkList(threats, keys);
+      var above = list.filter(function (r) { return r.speed > hi; });
+      var below = list.filter(function (r) { return r.speed < lo; });
+      var within = list.filter(function (r) { return r.speed >= lo && r.speed <= hi; });
+
+      function how(t) {
+        if (!tr && lo > t) return 'any spread';
+        if (tr && hi < t) return 'any spread';
+        var parts = (tr ? [-1, 0] : [1, 0]).map(function (n) {
+          var sp = tr ? SPEED.maxSpUnder(p.spe, n, boost, t) : SPEED.minSpOver(p.spe, n, boost, t);
+          return sp === null ? '' : '<span class="how-part">' + NATURE[n] + ' ' + (tr ? '≤ ' : '') + sp + ' sp</span>';
+        }).join('');
+        return parts || '<span class="muted">out of reach</span>';
+      }
+
+      function rowHtml(r) {
+        var b = BENCH[r.key], t = r.speed, steps = how(t);
+        var cmp = mine === t ? 'tie' : (mine > t) !== tr ? 'first' : 'second';
+        return '<tr class="' + cmp + '">'
+          + '<td class="spd-num">' + t + '</td>'
+          + '<td class="l name" title="' + esc(r.p.types.join(' / ')) + '">' + starHtml(r.p) + nameHtml(r.p.name)
+          + '<span class="spread-inline">' + b.label + '</span></td>'
+          + '<td class="l spread spread-col" title="' + esc(b.note) + '">' + b.label + '</td>'
+          + '<td class="need">' + (tr ? '≤ ' + (t - 1) : (t + 1) + '+') + '<span class="how-inline">' + steps + '</span></td>'
+          + '<td class="l how how-col">' + steps + '</td>'
+          + '<td class="l vs">' + { first: 'you first', tie: 'speed tie', second: 'they first' }[cmp] + '</td>'
+          + '</tr>';
+      }
+
+      var yourSpread = NATURE[state.nature] + ' · ' + state.sp + ' sp';
+      var youRow = '<tr class="you"><td class="spd-num">' + mine + '</td>'
+        + '<td class="l name">' + nameHtml(p.name) + '<span class="tag">you</span>'
+        + '<span class="spread-inline">' + yourSpread + '</span></td>'
+        + '<td class="l spread spread-col">' + yourSpread + '</td>'
+        + '<td class="l how how-col" colspan="3">' + (boost === 'none' ? '' : 'with ' + BOOST_NAME[boost]) + '</td></tr>';
+
+      function foldRow(which, n) {
+        var open = which === 'above' ? state.showAbove : state.showBelow;
+        var edge = which === 'above' ? 'above your max of ' + hi : 'below your min of ' + lo;
+        var outcome = (which === 'above') !== tr ? 'out of reach' : tr ? 'you stay under these at any spread'
+          : 'you outspeed these at any spread';
+        return '<tr class="fold"><td colspan="6"><button type="button" class="textbtn" data-fold="' + which
+          + '" aria-expanded="' + open + '">' + (open ? '− hide ' : '+ show ') + n + ' ' + (n === 1 ? 'spread' : 'spreads')
+          + ' ' + edge + ' · ' + outcome + '</button></td></tr>';
+      }
+
+      // Your own line sits above the threats it ties with.
+      var at = within.filter(function (r) { return r.speed > mine; }).length;
+      var html = [];
+      if (above.length) html.push(foldRow('above', above.length));
+      if (state.showAbove) html = html.concat(above.map(rowHtml));
+      html = html.concat(within.slice(0, at).map(rowHtml), [youRow], within.slice(at).map(rowHtml));
+      if (below.length) html.push(foldRow('below', below.length));
+      if (state.showBelow) html = html.concat(below.map(rowHtml));
+      $('needs-rows').innerHTML = html.join('');
+
+      $('needs-summary').innerHTML = '<b>' + esc(p.name) + '</b> reaches <b>' + mine + '</b> at '
+        + NATURE[state.nature] + ' ' + state.sp + ' SP' + (boost === 'none' ? '' : ' with ' + BOOST_NAME[boost])
+        + ', and anywhere from ' + lo + ' to ' + hi + '. ' + (within.length
+          ? 'That range holds <b>' + within.length + '</b> of the ' + list.length
+            + ' threat spreads; those are the matchups your spread decides.'
+          : 'None of the ' + list.length + ' threat spreads fall in that range, so your spread decides none of them.');
+      $('footer-speed').textContent = ['speed tiers', p.name + ' ' + mine, tr ? 'trick room' : 'outspeed',
+        count + ' meta threats', 'data reg m-c'].join(' · ');
+    }
+
+    // --- Speed tier table: every Reg M-C Pokémon, sortable on any column ---
+    function tierRows() {
+      var q = state.search.trim().toLowerCase();
+      var rows = pool.filter(function (p) {
+        var mega = p.name.indexOf('-Mega') !== -1;
+        if ((state.megas === 'exclude' && mega) || (state.megas === 'only' && !mega)) return false;
+        if (state.tierSet === 'meta' && !isThreat(p)) return false;
+        return !q || p.name.toLowerCase().indexOf(q) !== -1;
+      }).map(function (p) {
+        var r = { p: p, name: p.name, base: p.spe, star: isThreat(p) ? 1 : 0 };
+        TIER_KEYS.forEach(function (k) { r[k] = SPEED.benchmark(p, k); });
+        return r;
+      });
+      var key = state.sort, sign = state.dir === 'asc' ? 1 : -1;
+      rows.sort(function (a, b) {
+        var x = a[key], y = b[key];
+        if (x < y) return -sign;
+        if (x > y) return sign;
+        return b.maxplus - a.maxplus || (a.name < b.name ? -1 : 1);
+      });
+      // Rank by the sorted column; equal speeds share a rank.
+      var tied = key !== 'name' && key !== 'star';
+      rows.forEach(function (r, i) {
+        r.rank = tied && i > 0 && r[key] === rows[i - 1][key] ? rows[i - 1].rank : i + 1;
+      });
+      return rows;
+    }
+
+    function tierRowHtml(r) {
+      var p = r.p;
+      return '<tr>'
+        + '<td class="l star-col">' + starHtml(p) + '</td>'
+        + '<td class="l rank">' + r.rank + '</td>'
+        + '<td class="l name" title="' + esc(p.types.join(' / ')) + '"><button type="button" class="train" data-name="'
+        + esc(p.name) + '" title="Show the speeds that matter for ' + esc(p.name) + '">' + nameHtml(p.name) + '</button></td>'
+        + '<td class="bst">' + r.base + '</td>'
+        + TIER_KEYS.map(function (k) {
+          return '<td class="stat' + (k === state.sort ? ' sorted' : '') + '">' + r[k] + '</td>';
+        }).join('')
+        + '</tr>';
+    }
+
+    function renderTiers() {
+      view.querySelectorAll('th[data-sort]').forEach(function (th) {
+        var active = th.dataset.sort === state.sort;
+        th.setAttribute('aria-sort', active ? (state.dir === 'asc' ? 'ascending' : 'descending') : 'none');
+      });
+      var rows = tierRows();
+      $('speed-count').textContent = rows.length + ' shown';
+      $('speed-rows').innerHTML = rows.length ? rows.map(tierRowHtml).join('')
+        : '<tr><td colspan="10" class="empty">No Pokémon match these filters.</td></tr>';
+    }
+
+    function render() {
+      var c = chosen();
+      view.querySelectorAll('.seg[data-group]').forEach(function (seg) {
+        var group = seg.dataset.group;
+        seg.querySelectorAll('button').forEach(function (b) {
+          var on = b.dataset.value === c[group];
+          b.setAttribute('aria-checked', on);
+          b.tabIndex = on ? 0 : -1;
+        });
+        if (HINTS[group]) $('hint-' + group).textContent = HINTS[group][c[group]];
+      });
+      if (document.activeElement !== $('calc-sp')) $('calc-sp').value = state.sp;
+      $('calc-boost').value = state.boost;
+      renderNeeds();
+      renderTiers();
+    }
+
+    function update(changes) {
+      Object.assign(state, changes);
+      save();
+      render();
+    }
+
+    view.addEventListener('click', function (e) {
+      var seg = e.target.closest('.seg[data-group] button');
+      if (seg) return update(CHOOSE[seg.closest('.seg').dataset.group](seg.dataset.value));
+      var star = e.target.closest('.star');
+      if (star) return toggleThreat(star.dataset.name);
+      var chip = e.target.closest('[data-bench]');
+      if (chip) {
+        var keys = state.benches[state.goal], k = chip.dataset.bench;
+        // Keep at least one spread, or the list would be empty.
+        var next = keys.indexOf(k) === -1 ? keys.concat(k) : keys.length > 1 ? keys.filter(function (x) { return x !== k; }) : keys;
+        var benches = Object.assign({}, state.benches);
+        benches[state.goal] = TIER_KEYS.filter(function (x) { return next.indexOf(x) !== -1; });
+        return update({ benches: benches });
+      }
+      var fold = e.target.closest('[data-fold]');
+      if (fold) return update(fold.dataset.fold === 'above' ? { showAbove: !state.showAbove } : { showBelow: !state.showBelow });
+      var train = e.target.closest('.train');
+      if (train) {
+        $('calc-name').value = train.dataset.name;
+        update({ name: train.dataset.name, showAbove: false, showBelow: false });
+        $('speed-panel').scrollIntoView();
+        return;
+      }
+      if (e.target.closest('#reset-threats')) update({ threats: null });
+    });
+    // Radio-group keys: arrows move the choice within a control.
+    view.addEventListener('keydown', function (e) {
+      var step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      var b = e.target.closest('.seg[data-group] button');
+      if (!step || !b) return;
+      e.preventDefault();
+      var opts = Array.prototype.slice.call(b.parentNode.children);
+      var next = opts[(opts.indexOf(b) + step + opts.length) % opts.length];
+      next.click();
+      next.focus();
+    });
+    $('speed-rows').closest('table').querySelector('thead').addEventListener('click', function (e) {
+      var th = e.target.closest('th[data-sort]');
+      if (!th || !e.target.closest('button')) return;
+      var key = th.dataset.sort;
+      if (key === state.sort) update({ dir: state.dir === 'asc' ? 'desc' : 'asc' });
+      else update({ sort: key, dir: key === 'name' ? 'asc' : 'desc' });
+    });
+    $('calc-name').addEventListener('input', function (e) {
+      update({ name: e.target.value, showAbove: false, showBelow: false });
+    });
+    $('calc-sp').addEventListener('input', function (e) {
+      var v = parseInt(e.target.value, 10);
+      if (v >= 0 && v <= SPEED.MAX_SP) update({ sp: v });
+    });
+    $('calc-sp').addEventListener('change', function (e) { e.target.value = state.sp; });
+    $('calc-boost').addEventListener('change', function (e) { update({ boost: e.target.value }); });
+    $('speed-search').addEventListener('input', function (e) { update({ search: e.target.value }); });
+
+    $('speed-names').innerHTML = pool.map(function (p) { return '<option value="' + esc(p.name) + '">'; }).join('');
+    $('calc-name').value = state.name;
+    render();
+  })();
 </script>
